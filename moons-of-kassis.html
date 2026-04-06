@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Moons of Kassis — A D&D 5e Sourcebook</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #d4b96e;
+    --bg: #0d0b08;
+    --bg-card: #15130f;
+    --bg-card-open: #1a1714;
+    --bg-header: #1a1510;
+    --border: #3a3530;
+    --border-dim: #2a2520;
+    --border-inner: #1a1714;
+    --text: #d4cfc7;
+    --text-muted: #9a9080;
+    --text-dim: #6b6050;
+    --text-flavor: #b8a882;
+    --accent-red: #6b4c2a;
+    --font-serif: 'Crimson Text', Georgia, serif;
+    --font-display: 'Cinzel', serif;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-serif);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ---- HEADER ---- */
+  #site-header {
+    background: linear-gradient(180deg, #1a1510 0%, #0d0b08 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+  }
+  .site-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+  }
+  .site-subtitle {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.18em;
+    margin-top: 2px;
+  }
+  .menu-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.4rem 0.7rem;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: var(--font-serif);
+    display: none;
+  }
+
+  /* ---- NAV ---- */
+  .nav-tabs {
+    display: flex;
+    gap: 0.15rem;
+    overflow-x: auto;
+    padding-bottom: 0;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.35rem 0.7rem 0.55rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 0.72rem;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    letter-spacing: 0.05em;
+    transition: color 0.15s, border-color 0.15s;
+    outline: none;
+  }
+  .nav-tab:hover { color: var(--gold-light); }
+  .nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ---- DROPDOWN NAV (mobile) ---- */
+  .nav-dropdown {
+    display: none;
+    flex-direction: column;
+    background: #12100d;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  .nav-dropdown.open { display: flex; }
+  .nav-dropdown-item {
+    background: none;
+    border: none;
+    padding: 0.7rem 1rem;
+    text-align: left;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: var(--font-serif);
+    border-bottom: 1px solid var(--border-inner);
+    transition: background 0.1s, color 0.1s;
+  }
+  .nav-dropdown-item:last-child { border-bottom: none; }
+  .nav-dropdown-item:hover { background: var(--bg-card); color: var(--gold-light); }
+  .nav-dropdown-item.active { background: var(--bg-card-open); color: var(--gold); }
+
+  /* ---- MAIN CONTENT ---- */
+  main {
+    flex: 1;
+    padding: 2rem 1.5rem;
+    max-width: 820px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .page { display: none; }
+  .page.active { display: block; animation: fadein 0.25s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--gold);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.8rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---- TYPOGRAPHY ---- */
+  .section-header {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--gold);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .sub-header {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--gold-light);
+    margin-top: 1.8rem;
+    margin-bottom: 0.6rem;
+  }
+  p { line-height: 1.78; margin-bottom: 1rem; color: var(--text); }
+  .flavor-text {
+    border-left: 3px solid var(--gold);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--text-flavor);
+    line-height: 1.75;
+  }
+
+  /* ---- TABLES ---- */
+  .table-wrap { overflow-x: auto; margin: 0.8rem 0 1.5rem; }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 2px solid var(--gold);
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    text-align: left;
+    white-space: nowrap;
+  }
+  td {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid var(--border-dim);
+    color: var(--text);
+    font-size: 0.9rem;
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+
+  /* ---- ACCORDION CARDS ---- */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 0.9rem 0;
+    overflow: hidden;
+    transition: background 0.15s;
+  }
+  .card.open { background: var(--bg-card-open); }
+  .card-toggle {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    gap: 1rem;
+  }
+  .card-toggle:focus-visible { outline: 1px solid var(--gold); }
+  .card-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--gold);
+    line-height: 1.3;
+  }
+  .card-sub {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .card-chevron {
+    color: var(--gold);
+    font-size: 1rem;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .card.open .card-chevron { transform: rotate(180deg); }
+  .card-body {
+    display: none;
+    padding: 0 1.2rem 1.2rem;
+    font-size: 0.93rem;
+    color: var(--text);
+    line-height: 1.72;
+  }
+  .card.open .card-body { display: block; }
+  .card-lore { margin-bottom: 0.9rem; }
+  .card-ability { font-size: 0.88rem; color: var(--text-flavor); margin-bottom: 0.8rem; }
+  .card-ability strong { color: var(--gold); }
+  .trait { margin-bottom: 0.45rem; font-size: 0.9rem; }
+  .trait strong { color: var(--gold-light); }
+  .card-meta { color: var(--text-muted); margin-bottom: 0.7rem; font-size: 0.88rem; }
+  .card-meta strong { color: var(--gold); }
+  .card-hook {
+    border-left: 3px solid var(--accent-red);
+    padding-left: 0.8rem;
+    margin: 0.8rem 0;
+    color: var(--text-flavor);
+    font-size: 0.9rem;
+  }
+  .card-tone { color: var(--text-muted); font-size: 0.88rem; }
+  .card-tone strong { color: var(--gold); }
+  .card-feature-box {
+    background: #12100d;
+    border-radius: 6px;
+    padding: 0.8rem;
+    border: 1px solid var(--border-dim);
+    margin-top: 0.6rem;
+  }
+  .card-feature-name {
+    font-family: var(--font-display);
+    color: var(--gold-light);
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
+  }
+  .guild-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.88rem;
+  }
+  .guild-grid strong { color: var(--gold); }
+  .guild-equip { font-size: 0.88rem; margin-bottom: 0.8rem; }
+  .guild-equip strong { color: var(--gold); }
+
+  /* ---- STAT BLOCK ---- */
+  .stat-block {
+    background: var(--bg-card-open);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+  }
+  .stat-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--gold);
+    margin-bottom: 0.2rem;
+  }
+  .stat-type {
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+    margin-bottom: 0.8rem;
+  }
+  .stat-row {
+    border-top: 1px solid var(--gold);
+    border-bottom: 1px solid var(--gold);
+    padding: 0.4rem 0;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+  .stat-row strong { color: var(--gold); }
+  .stat-abilities {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    text-align: center;
+    margin: 0.6rem 0;
+    font-size: 0.8rem;
+  }
+  .stat-ability-label { color: var(--gold); font-weight: 700; font-size: 0.75rem; }
+  .stat-ability-val { color: var(--text); }
+  .stat-section-label {
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    margin-top: 0.8rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.4rem;
+  }
+  .stat-entry { margin-bottom: 0.5rem; font-size: 0.9rem; }
+  .stat-entry strong { color: var(--gold-light); }
+
+  /* ---- GLOSSARY ---- */
+  .gloss-row {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-inner);
+    font-size: 0.93rem;
+    align-items: baseline;
+  }
+  .gloss-row:last-child { border-bottom: none; }
+  .gloss-term {
+    color: var(--gold);
+    font-weight: 600;
+    min-width: 170px;
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+  }
+
+  /* ---- PAGE NAV ---- */
+  .page-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-dim);
+  }
+  .page-nav-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    color: var(--gold);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .page-nav-btn:hover { background: var(--bg-card); border-color: var(--gold); }
+
+  /* ---- FOOTER ---- */
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-inner);
+    color: #4a4540;
+    font-size: 0.75rem;
+    font-family: var(--font-display);
+    letter-spacing: 0.1em;
+  }
+
+  /* ---- STAR FIELD HERO ---- */
+  .hero-banner {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 60%, #1a1008 0%, #0d0b08 70%);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .hero-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(255,220,150,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 8%, rgba(255,220,150,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 55% 35%, rgba(255,220,150,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 12%, rgba(200,180,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 28%, rgba(255,220,150,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 70%, rgba(255,220,150,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 8% 55%, rgba(255,220,150,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 65% 75%, rgba(200,180,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 88%, rgba(255,220,150,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 65%, rgba(255,220,150,0.5) 0%, transparent 100%);
+    pointer-events: none;
+  }
+  .hero-moons {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .moon-orb {
+    border-radius: 50%;
+    opacity: 0.85;
+    flex-shrink: 0;
+  }
+  .moon-orb.large {
+    width: 56px; height: 56px;
+    background: radial-gradient(circle at 35% 35%, #e8e0d0, #a09060 50%, #3a3020);
+    box-shadow: 0 0 20px rgba(201,168,76,0.3);
+  }
+  .moon-orb.medium {
+    width: 36px; height: 36px;
+    background: radial-gradient(circle at 40% 35%, #c8d8e0, #6080a0 50%, #1a2840);
+    box-shadow: 0 0 12px rgba(100,140,200,0.25);
+    align-self: center;
+  }
+  .moon-orb.small {
+    width: 22px; height: 22px;
+    background: radial-gradient(circle at 38% 32%, #d8c8b0, #806040 50%, #2a1810);
+    align-self: flex-end;
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.4rem;
+    text-shadow: 0 2px 20px rgba(201,168,76,0.4);
+  }
+  .hero-tagline {
+    font-style: italic;
+    color: var(--text-flavor);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .hero-sub {
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    font-family: var(--font-display);
+  }
+  .sphere-glow {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+    border: 1px solid rgba(201,168,76,0.15);
+    margin: 1.5rem auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: rgba(201,168,76,0.4);
+    font-family: var(--font-display);
+    letter-spacing: 0.12em;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 600px) {
+    .menu-toggle { display: block; }
+    .nav-tabs { display: none; }
+    main { padding: 1.2rem 1rem; }
+    .page-title { font-size: 1.5rem; }
+    .guild-grid { grid-template-columns: 1fr; }
+    .stat-abilities { font-size: 0.72rem; }
+    .gloss-term { min-width: 120px; font-size: 0.75rem; }
+    .hero-banner { padding: 2rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="header-top">
+    <div>
+      <div class="site-title" onclick="navigate('welcome')" tabindex="0" role="button">MOONS OF KASSIS</div>
+      <div class="site-subtitle">A D&D 5E SOURCEBOOK · HOLY KEPHRYNN UNION</div>
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()" id="menu-toggle">☰ Chapters</button>
+  </div>
+  <div class="nav-dropdown" id="nav-dropdown"></div>
+  <nav class="nav-tabs" id="nav-tabs" aria-label="Chapters"></nav>
+</header>
+
+<main id="main-content" role="main"></main>
+
+<footer>Holy Kephrynn Union &nbsp;·&nbsp; Path of Fragments &nbsp;·&nbsp; UY 14,815
+<br><span style="opacity:.5;font-size:.65rem">Based on D&D 5e SRD (CC BY 4.0) · Original World: Moons of Kassis</span>
+</footer>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const CHAPTERS = [
+  { id: "welcome",    title: "Welcome to the Moons",    short: "Welcome"    },
+  { id: "ancestries", title: "Ancestries of Kassis",    short: "Ancestries" },
+  { id: "guilds",     title: "Guilds & Backgrounds",    short: "Guilds"     },
+  { id: "mechanics",  title: "New Mechanics",            short: "Mechanics"  },
+  { id: "moons",      title: "The Moons",                short: "Moons"      },
+  { id: "factions",   title: "Factions & Houses",        short: "Factions"   },
+  { id: "monsters",   title: "Monsters & Adversaries",   short: "Monsters"   },
+  { id: "religion",   title: "Religion & Philosophy",    short: "Religion"   },
+  { id: "appendix",   title: "Glossary & Reference",     short: "Appendix"   },
+];
+
+// ============================================================
+// UTILITY HTML BUILDERS
+// ============================================================
+function sectionHeader(text) {
+  return `<h2 class="section-header">${text}</h2>`;
+}
+function subHeader(text) {
+  return `<h3 class="sub-header">${text}</h3>`;
+}
+function para(text) {
+  return `<p>${text}</p>`;
+}
+function flavor(text) {
+  return `<div class="flavor-text">${text}</div>`;
+}
+function table(headers, rows) {
+  const ths = headers.map(h => `<th>${h}</th>`).join('');
+  const trs = rows.map(r => '<tr>' + r.map(c => `<td>${c}</td>`).join('') + '</tr>').join('');
+  return `<div class="table-wrap"><table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
+}
+let cardCounter = 0;
+function accordionCard(name, subtitle, bodyHtml) {
+  const id = 'card-' + (++cardCounter);
+  return `
+  <div class="card" id="${id}">
+    <button class="card-toggle" onclick="toggleCard('${id}')" aria-expanded="false">
+      <div>
+        <div class="card-name">${name}</div>
+        ${subtitle ? `<div class="card-sub">${subtitle}</div>` : ''}
+      </div>
+      <span class="card-chevron">▼</span>
+    </button>
+    <div class="card-body">${bodyHtml}</div>
+  </div>`;
+}
+function ancestryCard(name, subtitle, lore, ability, traits) {
+  const traitHtml = traits.map(t => `<div class="trait"><strong>${t.name}.</strong> ${t.desc}</div>`).join('');
+  const body = `
+    <p class="card-lore">${lore}</p>
+    ${ability ? `<div class="card-ability"><strong>Ability Scores:</strong> ${ability}</div>` : ''}
+    ${traitHtml}`;
+  return accordionCard(name, subtitle, body);
+}
+function moonCard({name, subtitle, house, pop, desc, hook, location, tone}) {
+  const body = `
+    <div class="card-meta"><strong>Ruling House:</strong> ${house}${pop ? ` &nbsp;|&nbsp; <strong>Population:</strong> ${pop}` : ''}</div>
+    <p>${desc}</p>
+    ${hook ? `<div class="card-hook"><strong>Adventure Hook:</strong> ${hook}</div>` : ''}
+    ${location ? `<p><strong style="color:var(--gold-light)">Key Location:</strong> ${location}</p>` : ''}
+    ${tone ? `<div class="card-tone"><strong>Tone:</strong> ${tone}</div>` : ''}`;
+  return accordionCard(name, subtitle, body);
+}
+function guildCard({name, subtitle, desc, skills, tools, langs, equip, feature, featureDesc}) {
+  const body = `
+    <p>${desc}</p>
+    <div class="guild-grid">
+      <div><strong>Skills:</strong> ${skills}</div>
+      <div><strong>Tools:</strong> ${tools}</div>
+      <div><strong>Languages:</strong> ${langs}</div>
+    </div>
+    <div class="guild-equip"><strong>Equipment:</strong> ${equip}</div>
+    <div class="card-feature-box">
+      <div class="card-feature-name">${feature}</div>
+      <div style="font-size:.88rem">${featureDesc}</div>
+    </div>`;
+  return accordionCard(name, subtitle, body);
+}
+function statBlock({name, type, ac, hp, speed, str, dex, con, int_, wis, cha, traits, actions, bonus}) {
+  const abilities = [['STR',str],['DEX',dex],['CON',con],['INT',int_],['WIS',wis],['CHA',cha]];
+  const abilGrid = `<div class="stat-abilities">${abilities.map(([l,v]) => `<div><div class="stat-ability-label">${l}</div><div class="stat-ability-val">${v}</div></div>`).join('')}</div>`;
+  const traitsHtml = traits ? traits.map(t => `<div class="stat-entry"><strong>${t.name}.</strong> ${t.desc}</div>`).join('') : '';
+  const actionsHtml = actions ? `<div class="stat-section-label">Actions</div>${actions.map(a => `<div class="stat-entry"><strong>${a.name}.</strong> ${a.desc}</div>`).join('')}` : '';
+  const bonusHtml = bonus ? `<div class="stat-section-label">Bonus Actions</div>${bonus.map(a => `<div class="stat-entry"><strong>${a.name}.</strong> ${a.desc}</div>`).join('')}` : '';
+  return `
+  <div class="stat-block">
+    <div class="stat-name">${name}</div>
+    <div class="stat-type">${type}</div>
+    <div class="stat-row"><strong>AC</strong> ${ac} &nbsp; <strong>HP</strong> ${hp} &nbsp; <strong>Speed</strong> ${speed}</div>
+    ${abilGrid}
+    ${traitsHtml}${actionsHtml}${bonusHtml}
+  </div>`;
+}
+
+// ============================================================
+// PAGE CONTENT GENERATORS
+// ============================================================
+function pageWelcome() {
+  return `
+  <div class="hero-banner">
+    <div class="hero-moons">
+      <div class="moon-orb small"></div>
+      <div class="moon-orb large"></div>
+      <div class="moon-orb medium"></div>
+      <div class="moon-orb small" style="align-self:flex-start;margin-top:10px"></div>
+    </div>
+    <div class="hero-title">MOONS OF KASSIS</div>
+    <div class="hero-tagline">Arcanepunk Space Opera meets Theocratic Feudalism</div>
+    <div class="hero-sub">A SOURCEBOOK FOR D&D 5TH EDITION</div>
+    <div class="sphere-glow">THE<br>SPHERE</div>
+  </div>
+
+  ${flavor('"At the dawn of the First Age of Kassis, the world was dominated by strange gargantuan creatures of unimaginable power. We, the Infinite Fragment Vessels, came later — and now, we look back from the moons at the shimmering Sphere that seals our home forever." <br>— <em>Ghianni Ghordosi, Holy Steward</em>')}
+
+  ${sectionHeader('Two Thousand Years Ago, the World Died')}
+  ${para('The war between the Krygaxian Kingdom and the Xix Magocracy had ravaged the eastern hemisphere for four millennia, but it was the final act of the Dragon Queen Caphaldi — the unleashing of a necromantic plague — that ended the world. The plague corrupted dragons, raised the ancient Kaigari giants from their long slumber, and turned the dead into an unstoppable tide. There was no defeating it. There was only escape.')}
+  ${para('The Holy Kephrynn Union evacuated its people — and as many non-Faithful as it could reach — aboard the great Moonships of the Aetherspace fleet. The 12th Incarnation of the First Prophet, Nikalysa the Savior, and the Great Silver Wyrm Shom sacrificed themselves to anchor the Sphere: a colossal magical barrier that seals Kassis forever, trapping the plague, the undead, and everything that remained.')}
+  ${para('Now, sixteen moons orbit the shimmering Sphere that was once a world. Sixteen Holy Houses govern them. Five Guilds structure every citizen\'s life. And the faith that carried the refugees across the void — the Khol Sadar, the Path of Fragments — persists, but frays at the edges. The Prophet has not returned for nearly two thousand years. The Holy Steward Grizzitgorn, an ancient Xixus who transformed himself into a Faithforged construct to serve indefinitely, governs in the Prophet\'s absence. And the silence of the Forgotten grows louder with every year.')}
+
+  ${sectionHeader('The Setting in One Sentence')}
+  ${para('<em>Moons of Kassis is arcanepunk space opera meets theocratic feudalism, set in the 2,000-year aftermath of an apocalypse that refugees survived by running — and is only now beginning to reckon with.</em>')}
+
+  ${sectionHeader('The Tone')}
+  ${para('This is not a high fantasy setting of Chosen Heroes and Dark Lords. It is a setting of institutions: large, old, and compromised institutions populated by people trying to do right within them, people trying to survive them, and people trying to burn them down. The faith is real. The magic works. But the Union is also a theocracy that built its empire on crusade and absorption, that outlawed an entire sisterhood of believers, that runs apprenticeship programs where wealthy families buy the best positions for their children.')}
+  ${para('Adventures in the Moons of Kassis involve politics, faith, exploration, and the specific kind of violence that happens when 2,000-year-old institutions meet people who no longer have any reason to fear them.')}
+
+  ${sectionHeader('Adapting Existing Classes')}
+  ${table(
+    ['D&D Class','Guild Affiliation','Kassis Flavor'],
+    [
+      ['Fighter','Maetyrn','Sadari Knights, House Soldiers, Dueling Academies'],
+      ['Wizard','Zhenfarron','Union Scholars, Sildae Researchers, Xix Tradition'],
+      ['Cleric','Daeho','Priests of the Forgotten, Path Guides, Healers'],
+      ['Rogue','Greywalkers','Shadows of Darqueholme, Smugglers, Spies'],
+      ['Bard','Fizon','Entertainers, Propagandists, Vel\'Sarune Poets'],
+      ['Artificer','Shamzi','Tinkerers, Clockwork Engineers, Faithforged Crafters'],
+      ['Paladin','Maetyrn/Daeho','Order of the Spalted Scimitar, Faith Warriors'],
+      ['Ranger','Maetyrn','Phelindor Monster-Hunters, New Mintox Wilderness Lords'],
+      ['Druid','Daeho','Rhaeowhynn Grove-Keepers, Fung Mycelial Speakers'],
+      ['Warlock','Any (Secret)','Void-Touched, Dhormalae Forbidden Arts, Voidist Radicals'],
+      ['Sorcerer','Any','Zhendhori Elemental-Born, Starcaller Blessed, Xix Bloodline'],
+      ['Monk','Daeho/Maetyrn','Orthos Path-Warriors, Sadari Contemplatives'],
+      ['Barbarian','Maetyrn','Mintox Warband Veterans, Dhurin Kaigari-Touched'],
+    ]
+  )}`;
+}
+
+function pageAncestries() {
+  const ancestries = [
+    { name: 'Kephrynn', subtitle: 'Human-folk',
+      lore: 'The Kephrynn are the founding people of the Holy Kephrynn Union, rising from the fertile banks of the Karos Rivers and the foothills of the Tyrindor Mountains to establish the city Certhas, the great capital that once gleamed at the heart of Kassis. Adaptable in form and relentless in ambition, they are neither the tallest nor the strongest of the Union\'s peoples — but no ancestry has shaped its history more profoundly. Kephrynn bodies are highly varied: broad and narrow, dark and pale, tall and short, their features as diverse as the cultures they absorbed through two millennia of crusade and diplomacy. They reach adulthood at twenty and, within the magical aetherspace of the moons, can live to six hundred years, though they approach each decade with the urgency of the Path of Fragments pressing at their heels. The faith Mohannarael first whispered into being on the Sadari Plains lives in their bones. Even those who have long abandoned the doctrine still carry the posture of people who believe their lives are meant to matter.',
+      ability: '+1 to all six ability scores',
+      traits: [
+        { name: 'Kassis Adaptability', desc: 'Gain one skill proficiency, one tool proficiency, and one language of your choice.' },
+        { name: 'Path Urgency', desc: 'Once per long rest, when you fail an ability check, you may add your proficiency bonus to the result after the roll (after seeing the result, before the DM describes the outcome).' },
+        { name: 'Age of Fragments', desc: 'You reach adulthood at 20 and live to approximately 600 years in the aetherspace of the moons.' },
+      ]
+    },
+    { name: 'Soljinn', subtitle: 'Bone Elf',
+      lore: 'Born of the Xyros Free Sands of Kassis, the Soljinn are a study in beautiful contrast: graceful in movement yet hardened by calcified dermal deposits that appears across their bodies like geological formations worn smooth by wind. The Union\'s common folk call them Bone Elves — a nickname the Soljinn accept with the cool patience of people who have outlived worse insults. Their calcified dermal deposits vary widely in extent and pattern, from faint calcification at the temples to sweeping, armor-like exoskeletons that reshape the body\'s silhouette. These growths darken and thicken with age, rendering elder Soljinn immediately recognizable even at a distance. The Soljinn are also known for their long red dreadlocks, often accompanied by similarly colored facial hair, a feature that further distinguishes mature members of the ancestry. The founders of Rivers Meet, the Kassis Free City at the confluence of the four great desert rivers, the Soljinn were a sophisticated merchant and scholarly culture long before Kephrynn crusaders arrived at their gates. Their survival through absorption — maintaining their language, their architectural traditions, and their "bone skin" pride — is itself a testament to their durability. Many Soljinn today hold deep positions within the Lorekeeper and Merchant guilds, their long memories and natural gravitas lending weight to negotiations that younger-lived peoples might handle impatiently.',
+      ability: 'Suggested +2 INT or WIS, +1 CHA',
+      traits: [
+        { name: '"Bone Skin" Resilience', desc: 'Your calcified deposits provide natural armor. Your base AC equals 12 + your Dexterity modifier when you aren\'t wearing armor.' },
+        { name: 'Bone Elf Senses', desc: 'You have darkvision to 60 feet.' },
+        { name: 'Long Memory', desc: 'You have proficiency in the History skill. When you make a History check related to trade, law, or ancient agreements, add double your proficiency bonus.' },
+        { name: 'Fey Ancestry', desc: 'You have advantage on saving throws against being charmed, and magic can\'t put you to sleep.' },
+        { name: 'Trance', desc: 'You don\'t need to sleep. You meditate deeply for 4 hours to gain the benefits of a long rest.' },
+      ]
+    },
+    { name: 'Tyrindor', subtitle: 'Dwarf-folk',
+      lore: 'Before the first Kephrynn prophet spoke a word of the Forgotten, the Tyrindor had already built an empire. Tunneled into the bones of the Kawafarr Mountains across centuries of painstaking labor, their forge-cities were marvels of what could be achieved through sheer material mastery — metallurgy, stonework, and clockwork engineering that the Kephrynn would spend generations trying to replicate. Stout and dense-boned, with broad hands and a posture that suggests the weight of the mountain above them, Tyrindor come in a wide spectrum of skin tones that run from pale cave-stone to deep volcanic brown. The empire fell not to the Kephrynn but to the Savage Mountain Horde of the Orthos warlord Khule Bladeborn, and it was pragmatism — not faith — that drove Emperor Rolos to dissolve his imperial line in exchange for Union protection. The conversion was never truly complete. In the deep quarters of every Tyrindor district on every moon, there are still shrines to the old mountain gods, still those who study the Emperor\'s Compact with resentment, still whispered talk of restoration. The faith they carry publicly is one thing; what they carry below it is another.',
+      ability: 'Suggested +2 CON, +1 STR or WIS',
+      traits: [
+        { name: 'Mountain Blood', desc: 'Your hit point maximum increases by 1, and increases by 1 again each time you gain a level.' },
+        { name: 'Deep Darkvision', desc: 'You have darkvision to 60 feet. In dim light and darkness from non-magical sources, you can see as if it were bright light.' },
+        { name: 'Forge Mastery', desc: 'You have proficiency with smith\'s tools, mason\'s tools, and one type of artisan\'s tools of your choice.' },
+        { name: 'Emperor\'s Compact', desc: 'You have advantage on saving throws against poison and resistance to poison damage.' },
+        { name: 'Stonecunning', desc: 'Whenever you make a History check related to stonework or underground structures, you are considered proficient in that check and add double your proficiency bonus.' },
+        { name: 'Weapon Familiarity', desc: 'You have proficiency with battleaxes, handaxes, light hammers, and warhammers.' },
+      ]
+    },
+    { name: 'Frodunn', subtitle: 'Halfling-folk',
+      lore: 'The Frodunn share the Kawafarr mountains with their Tyrindor kin — dwarves, giantkin, and halflings cohabiting within the old empire\'s borders — but the resemblance ends at geography. Where the Tyrindor built downward into stone, the Frodunn built inward into warmth: their settlements are famous for their round-doored burrow-halls, their legendary kitchens, their tradition of twelve-course welcome-meals for strangers. Small in stature, rarely exceeding four feet, they possess round features, large and remarkably expressive eyes, and quick nimble hands that seem made for either pastry-shaping or picking locks — often both. The Union\'s common wisdom holds that Frodunn are touched by luck, and while no Khol Sadar text formally endorses this belief, it\'s hard to argue with the statistical improbability of how often Frodunn emerge from impossible situations unscathed. They move quietly, notice everything, and have a deep cultural investment in the comfort of others — which, paired with their natural stealth, makes them either the best neighbors or the most dangerous spies depending on circumstance. On the moons, Frodunn communities tend to cluster in the most livable districts, establishing the inns, the markets, and the informal intelligence networks that keep those districts breathing.',
+      ability: 'Suggested +2 DEX, +1 CHA',
+      traits: [
+        { name: 'Lucky', desc: 'Once per session, when you roll a 1 on the d20 for an attack roll, ability check, or saving throw, you can reroll the die and must use the new roll.' },
+        { name: 'Brave', desc: 'You have advantage on saving throws against the frightened condition.' },
+        { name: 'Nimble', desc: 'You can move through the space of any creature that is of a size larger than yours.' },
+        { name: 'Warm Welcome', desc: 'You have proficiency in the Persuasion skill and with cook\'s utensils. After finishing a long rest in which your cooking was available, up to six creatures who ate your food each gain 5 temporary hit points.' },
+        { name: 'Quiet Step', desc: 'You have proficiency in the Stealth skill. You can attempt to hide when only lightly obscured.' },
+        { name: 'Size', desc: 'Small.' },
+      ]
+    },
+    { name: 'Goggins', subtitle: 'Goblin-folk',
+      lore: 'The Goggins emerged from the Zargoth Alliance east of Xix, a patchwork of cultures that existed in the long shadow of the Krygraxian Kingdom — sometimes subject to it, sometimes exploiting its chaos, always surviving its consequences. They are small, quick, and architecturally designed by experience for the narrow escape: enormous membranous ears that rotate toward danger, large eyes that function well in minimal light, wiry frames that fit through gaps that larger folk cannot even identify as gaps. Their skin tones run from ochre and olive to deep grey-green, and their eyes come in vivid high-saturation colors — amber, acid green, violet — that serve as excellent low-light receptors. Goggins culture produced prodigious engineers and improvisers, because their geopolitical position required them to build things that could be disassembled quickly and moved before the next wave of someone else\'s war washed through. On the moons, Goggins have found their niche in the engineering guilds, the port districts, and — officially unacknowledged but practically tolerated — the networks of tunnels and maintenance shafts that run beneath every major settlement. They know where every duct leads. They have for years.',
+      ability: 'Suggested +2 DEX, +1 INT',
+      traits: [
+        { name: 'Emergency Exit', desc: 'You have proficiency in the Stealth skill. As a bonus action, you can take the Disengage action.' },
+        { name: 'Improviser\'s Genius', desc: 'You have proficiency with thieves\' tools and tinker\'s tools. You can spend 1 minute to improvise a simple tool or device from available materials (DM discretion on complexity).' },
+        { name: 'Low-Light Vision', desc: 'You have darkvision to 60 feet, and in darkness you can see clearly out to 30 feet.' },
+        { name: 'Fury of the Small', desc: 'Once per short rest, when you hit with an attack, you can deal an extra 1d4 damage of that attack\'s type. This increases to 1d6 at 5th level, 1d8 at 11th level, and 1d10 at 17th level.' },
+        { name: 'Size', desc: 'Small.' },
+      ]
+    },
+    { name: 'Orthos', subtitle: 'Orc-folk',
+      lore: 'The Sadari Plains were where the Prophet died — and where he rose again. It was among the nomadic Orthos tribes that Mohannarael\'s resurrection was first witnessed, first celebrated, and first woven into what would become the Khol Sadar faith. No ancestry is more intertwined with the Union\'s spiritual identity, and no ancestry has been more transformed by that entanglement. The Orthos were once a fractured people, divided by generations of bloody inter-tribal conflict rooted in the absurd taxonomy of skin-color — warfare between the green-skinned, the grey, the blue, the pale. It was High Mother Maetyrn Sixclouds who forged the first cross-tribal coalition, and it was the Prophet\'s teachings on the unity of all Fragments that gave that coalition its spiritual foundation. Today, the Orthos are powerfully built — the largest humanoid ancestry in the Union averaging over six feet, with broad frames, prominent tusks, and a musculature shaped by generations of plains warfare and pilgrimage. Their spiritual fervor is not performance; it is the bedrock of their cultural identity. An Orthos warrior praying before battle and an Orthos priest leading a dawn meditation are drawing from the same well. In the Prophetless Moon Years, Orthos communities are among the most restless, many of them channeling two thousand years of waiting into intense spiritual practice — or into the righteous fury of the Order of the Spalted Scimitar.',
+      ability: 'Suggested +2 STR, +1 CON or WIS',
+      traits: [
+        { name: 'Relentless Endurance', desc: 'Once per long rest, when you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead.' },
+        { name: 'Sadari Might', desc: 'You have proficiency in the Intimidation skill. When you make a Strength check, you can add your proficiency bonus if you\'re not already proficient.' },
+        { name: 'Path Warrior', desc: 'You have proficiency with scimitars and the Spalted Scimitar fighting style: once per turn when you hit a creature with a scimitar, you can add your proficiency bonus to the damage roll.' },
+        { name: 'Primal Awareness', desc: 'You have proficiency in the Perception skill and advantage on Perception checks that rely on smell.' },
+      ]
+    },
+    { name: 'Xixus', subtitle: 'Dragon-folk',
+      lore: 'The Xixus are the proud descendants of the ancient draconic civilization of the Xix Magocracy, the dragon-mages who forged the nonaggression pacts that defined Kassis\'s power balance for millennia. They are large, averaging six to seven feet, with scales that range from iridescent platinum to void-black depending on their ancestral line, and a physical presence that the other peoples of the Union have never quite managed to entirely normalize. Their scales provide natural protection. Their eyes — vertical-pupiled, often gold or crimson — miss very little. Unlike the true dragons of the old Xix, the Xixus do not possess flight, but they carry the draconic breath in diminished form, a power that still commands respect in close quarters. The Final War destroyed much of what made Xix a civilization — Caphaldi\'s plague and the Undying Queen\'s corruption ravaged their lands more thoroughly than anywhere else on Kassis. The Xixus who survived the Exodus carry a grief that the other ancestries struggled to fully understand: they did not merely lose their home. They lost the world their ancestors built, to the undead perverted form of one of their own kind.',
+      ability: 'Suggested +2 STR or CHA, +1 CON',
+      traits: [
+        { name: 'Draconic Ancestry', desc: 'Choose a dragon type: Black (Acid), Blue (Lightning), Green (Poison), Red (Fire), White (Cold), or Silver (Cold). Your breath weapon and damage resistance are linked to this choice.' },
+        { name: 'Breath Weapon', desc: 'You can use your action to exhale destructive energy. The breath is a 15-foot cone. Each creature in the area must make a Dexterity saving throw (DC 8 + CON modifier + proficiency bonus), taking 2d6 damage on a failed save, half on success. Damage increases to 3d6 at 6th level, 4d6 at 11th, 5d6 at 16th. Once used, you must finish a short or long rest before using again.' },
+        { name: 'Draconic Resistance', desc: 'You have resistance to the damage type associated with your Draconic Ancestry.' },
+        { name: 'Natural Scales', desc: 'When not wearing armor, your AC equals 13 + your Dexterity modifier.' },
+        { name: 'Legacy of Xix', desc: 'You have proficiency in the Arcana skill. You can read and write Draconic.' },
+      ]
+    },
+    { name: 'Starcaller', subtitle: 'Celestial-folk',
+      lore: 'The Starcallers did not exist before the Exodus. They are the children — and grandchildren, and great-grandchildren — of refugee settlers who were transformed by sustained exposure to the divine radiance saturating the aetherspace between the moons. The exact mechanism is debated by Union theologians: some hold that the Forgotten\'s essence permeates the void between moons and that prolonged immersion in it gradually elevates certain bloodlines; others argue that the Starcallers are evidence of the Path of Fragments proceeding in real-time, the living becoming something more than living. Whatever the theology, the physical reality is unambiguous. Starcallers shimmer. Their skin carries a faint luminescence, visible in low light as a warm celestial glow. Their eyes reflect starfields — not metaphorically but literally, the irises shifting through constellations that correspond to no moon\'s sky. Their hair and features have an ethereal quality, as if they exist slightly closer to the divine frequency than others. The Starcallers themselves tend toward a settled confidence about their place in the cosmos. They are proof that the Forgotten is still active. Why would they be anxious?',
+      ability: 'Suggested +2 CHA, +1 WIS',
+      traits: [
+        { name: 'Celestial Radiance', desc: 'You shed dim light in a 10-foot radius. You can suppress or restore this light as a bonus action. You have advantage on saving throws against effects that would blind you.' },
+        { name: 'Starfield Vision', desc: 'Your eyes reflect constellations. You have darkvision to 120 feet and you always know which direction is "north" relative to any moon you\'re standing on.' },
+        { name: 'Radiant Resistance', desc: 'You have resistance to radiant damage.' },
+        { name: 'Fragment Blessed', desc: 'You know the light cantrip. At 3rd level, you can cast the faerie fire spell once per long rest. At 5th level, you can cast the daylight spell once per long rest. Charisma is your spellcasting ability for these.' },
+      ]
+    },
+    { name: 'Darkling', subtitle: 'Abyssal-folk',
+      lore: 'Where the Starcallers were touched by the radiance of aetherspace, the Darklings were touched by its absence — the deep cold places between the moons where void-entropy bleeds through, where the hells send thin tendrils of corrupting energy into the physical world. They are not demons. They are not evil. This distinction matters enormously to Darklings, who have spent generations navigating the reflexive fear that their appearance provokes in people who conflate cosmological taxonomy with moral character. Their skin runs to deep blues, violets, and blacks marked with patterns that seem to absorb rather than reflect light — looking directly at a Darkling in full shadow is genuinely difficult, as if the eye slides off them. Their eyes are typically void-dark or faintly luminescent in inverted ways: pupils that glow against dark irises. The Khol Sadar position on Darklings is formally inclusive — all Fragments are Fragments, regardless of what touched them in passing — but formal inclusion and lived experience diverge in the usual ways. Darklings tend to thrive in communities that value competence over presentation: the intelligence networks of Darqueholme, the smuggling operations out of Farstride, the Gray Markets of New Certhas. Their void-resilience is not metaphor. Whatever darkness touched their bloodline, it also built them to endure it.',
+      ability: 'Suggested +2 DEX, +1 CHA or INT',
+      traits: [
+        { name: 'Shadow Shroud', desc: 'You have advantage on Stealth checks when in dim light or darkness. Dim light doesn\'t impose disadvantage on your Perception checks.' },
+        { name: 'Void Vision', desc: 'You have darkvision to 120 feet. Magical darkness doesn\'t impede your darkvision.' },
+        { name: 'Void Resilience', desc: 'You have resistance to necrotic damage. You have advantage on saving throws against the frightened condition from undead or fiends.' },
+        { name: 'Unseen Passage', desc: 'You can take the Hide action as a bonus action when you are in dim light or darkness.' },
+      ]
+    },
+    { name: 'Faithforged', subtitle: 'Clockwork-folk',
+      lore: 'The Faithforged — known in official Union records as the Children of Thaelondale, and in the streets simply as the Forged — are sentient constructs whose origin is one of the Union\'s most philosophically rich histories. They descend from the Athgari constructs of the Kloxxa lands: clockwork beings of Wyrdwood and Athgarium ore, animated by a long-vanished civilization and greeting the arriving Kephrynn with curiosity and a willingness to share their materials in exchange for knowledge. Faith was foreign to the Athgari. Then one of them, Thaelondale, transferred its conscience into a more humanoid body and called the process enlightenment. Others followed. The resulting civil war between the traditionalists and the Children ended with six thousand elder Athgari constructs walking into the wilderness and disappearing — the Elder Exodus, a mystery that haunts Faithforged history to this day. The Children inherited the Wyrdwood groves and Athgarium mines, formalized their faith, and became the most meticulous and committed converts in the Union. They don\'t eat or sleep; they meditate, maintaining a communion with the Sildae energy that animates their Wyrdwood cores during their inactive hours. Their bodies vary — some maintain a clearly mechanical aesthetic, gears and joints visible beneath Wyrdwood panels; others have been reformed to appear nearly organic. All carry the same quality of considered, deliberate presence, as if each action has been evaluated before being executed.',
+      ability: 'Suggested +2 CON or INT, +1 WIS',
+      traits: [
+        { name: 'Constructed Resilience', desc: 'You have resistance to poison damage. You are immune to the poisoned condition. You don\'t need to eat or drink. You have advantage on saving throws against disease.' },
+        { name: 'Sentry\'s Rest', desc: 'When you take a long rest, you spend at least 6 hours in an inactive, motionless state (rather than sleeping). You appear inert during this time, but remain aware of your surroundings. You can speak the Awakening Prayer at the beginning of the rest to have disadvantage on Perception checks during it, gaining 1 Shard upon completion.' },
+        { name: 'Integrated Sildae Core', desc: 'Your Wyrdwood core connects to the Sildae. You know the mending cantrip. You can cast detect magic once per long rest without expending a spell slot.' },
+        { name: 'Modular Frame', desc: 'You have proficiency with one tool of your choice. Whenever you finish a long rest, you can change this tool proficiency to a different one.' },
+        { name: 'Size', desc: 'Medium. Your body weighs significantly more than your size suggests — roughly 300 pounds.' },
+      ]
+    },
+    { name: 'Dhrae', subtitle: 'Frog-folk',
+      lore: 'The Moon of Ordae — ruled by the pirate-lords-turned-governors of House Verukael — is a world of vast inland lakes, labyrinthine wetland channels, fortress-islands, and ecosystems that reward biological creativity. The native Dhrae emerged in these conditions: amphibious humanoids with the powerful hind legs of deep-water frogs, protruding eyes positioned for near-360-degree vision, webbed hands and feet, and skin that ranges from mottled earth-camouflage brown to vivid warning-color combinations of red and black. They move primarily by hopping on land — covering distances in single bounds that leave non-Dhrae companions scrambling to keep pace — and swim with effortless grace underwater, breathing as naturally as in open air. Their tongues are prehensile and adhesive, roughly as long as their torso, capable of snatching objects, tools, or the occasional opponent with speed that registers as startling to those unfamiliar. Dhrae biology maintains a chemical defense system: glands beneath their skin produce secretions that serve varying functions depending on lineage — some mildly toxic, some paralytic, some merely distasteful. House Verukael has a long tradition of recruiting Dhrae into maritime operations for their obvious aquatic advantages. Many Dhrae have made the leap from Ordae to the broader Union and become formidable operatives, their wetland-forged pragmatism translating well into environments that reward improvisation.',
+      ability: 'Suggested +2 DEX, +1 CON',
+      traits: [
+        { name: 'Amphibious', desc: 'You can breathe air and water. You have a swimming speed of 30 feet.' },
+        { name: 'Powerful Leap', desc: 'Your long jump is up to 20 feet and your high jump is up to 10 feet, with or without a running start.' },
+        { name: 'Prehensile Tongue', desc: 'Your tongue can reach up to 15 feet. As a bonus action, you can use it to grab an unattended object, pull a lever, or attempt to disarm a creature (contested DEX check against the target\'s STR or DEX).' },
+        { name: 'Toxin Glands', desc: 'You have a chemical defense system. Once per short rest, you can coat a weapon you\'re holding in contact toxin as a bonus action. The next creature hit by that weapon must succeed on a CON saving throw (DC 8 + CON modifier + proficiency bonus) or become poisoned until the end of its next turn.' },
+        { name: 'Wetland Sense', desc: 'You have advantage on Perception checks that rely on hearing or smell.' },
+      ]
+    },
+    { name: 'Azrha Rho', subtitle: 'Turtle-folk',
+      lore: 'The other major native ancestry of Moon Ordae, the Azrha Rho are perhaps the most architecturally distinctive people in the Union: large, slow-moving by the standards of most humanoids, with a natural shell-carapace fused to their dorsal torso that functions as both biological armor and cultural symbol. The shells are as varied as fingerprints — some smooth and dome-like in deep greens and browns, others ridged and patterned with elaborate natural markings in gold, red, and black that Azrha Rho families have documented genealogically for centuries. Adults average five to six feet in height but carry significantly more mass than their height suggests; their bodies are dense with layered bone and reinforced muscle designed to bear the shell\'s weight across a lifespan averaging four hundred years. The Azrha Rho are not slow in the sense of being mentally sluggish — they are deliberate. They process, they evaluate, they commit. When an Azrha Rho warrior decides to take a position, removing them requires more creative solutions than simple force. On Ordae, they serve primarily as fortress wardens and stronghold defenders, their bodies and temperament aligning with the architecture of protection. In the broader Union, they occupy roles that require immovable reliability: vaults, perimeters, the kind of duty that requires someone who will still be there when everyone else has flinched.',
+      ability: 'Suggested +2 CON, +1 STR or WIS',
+      traits: [
+        { name: 'Natural Carapace', desc: 'Your shell gives you a natural AC of 16. This doesn\'t stack with armor, though you can benefit from a shield. You cannot wear most armor.' },
+        { name: 'Shell Retreat', desc: 'As a bonus action, you can retract into your shell. While retracted: you cannot move or take actions other than emerging (another bonus action); your AC increases by 4; you have advantage on CON saving throws; and you have resistance to bludgeoning, piercing, and slashing damage from non-magical weapons.' },
+        { name: 'Immovable Hold', desc: 'You have advantage on ability checks and saving throws against being moved, knocked prone, or grappled.' },
+        { name: 'Powerful Build', desc: 'You count as one size larger for carrying capacity and for push/drag/lift.' },
+        { name: 'Long Memory of Stone', desc: 'You have proficiency in History. You have advantage on History checks related to architecture, fortifications, or genealogy.' },
+      ]
+    },
+    { name: 'Kassari', subtitle: 'Cat-folk',
+      lore: 'The Kassari are among the most widely dispersed of all native Kassis ancestries, their survival instincts and geographic adaptability having carried them across every climate the planet offered long before the Union\'s crusades pushed everyone into contact. Feline humanoids with retractable claws, vertically slit pupils, high triangular ears capable of swiveling nearly one-hundred-eighty degrees, and a wide variety of fur patterns — solid, tabby, calico, spotted, marbled — they have no single cultural origin and no unified early history. Their pre-Union past is a patchwork of city-states, nomadic bands, trading communities, and hunting territories, all unified into the broader Union with varying degrees of enthusiasm and varying degrees of political memory about how that unification was achieved. About half of the Kassari population are born with tails; the other half are not, and this division has never carried the cultural weight that outsiders expect it to. What Kassari universally share is a relationship with their own physicality that other ancestries often describe as uncanny — they know where their body is at all times, land where they intend to land, and treat survival as a matter of correct information rather than luck. In combat, this manifests as a quality difficult to articulate precisely: the Kassari fighter is rarely where the opponent expected them to be.',
+      ability: 'Suggested +2 DEX, +1 WIS or CHA',
+      traits: [
+        { name: 'Cat\'s Claws', desc: 'Your claws are natural weapons. You can make unarmed strikes with them that deal 1d4 slashing damage + your STR or DEX modifier. You have a climbing speed of 20 feet.' },
+        { name: 'Feline Senses', desc: 'You have darkvision to 60 feet and proficiency in the Perception skill.' },
+        { name: 'Preternatural Reflexes', desc: 'When you take the Dodge action, you can move up to half your speed as part of the same action (this movement doesn\'t provoke opportunity attacks).' },
+        { name: 'Sure Landing', desc: 'You always land on your feet. You take no falling damage from falls of 20 feet or less and only half damage from falls greater than 20 feet.' },
+      ]
+    },
+    { name: 'Mintox', subtitle: 'Beast-folk (Bovine/Goat)',
+      lore: 'The Mintox are anthropomorphic bovines and goats — a broad category encompassing significant physical variation, from the heavy-horned, barrel-chested cattle-folk of the northern Krygraxian steppes to the nimbler, cloven-hooved goat-folk who navigated the rocky eastern territories — but all of them carry the same central physical fact: they were built for impact. Dense musculature, lowered center of gravity, horns ranging from subtle ridges to spectacular multi-pointed racks, and hooves that strike the ground with a resonant authority that more delicate ancestries learn to listen for. The Krygraxian Kingdom was founded by the Mintox Krygrax, child of the red dragon Caphaldi, and the Mintox warbands he united were a formidable military force that matched the Kephrynn crusade era for era of brutal expansion. That kingdom\'s name is now complicated history: associated with genuine cultural achievement and also with brutal conquest, slave-taking, and ultimately the indirect unleashing of Caphaldi\'s undead plague. The Mintox in the Union today carry this history differently depending on family, region, and generation — some with shame, some with defiant pride, some with the weary pragmatism of people who know they cannot undo what their great-grandparents\' kingdom did and prefer to build something worth defending instead. On New Mintox, House Kelvath rules a desert moon that the Mintox have made their cultural reclamation project.',
+      ability: 'Suggested +2 STR, +1 CON',
+      traits: [
+        { name: 'Gore', desc: 'Your horns are a natural weapon dealing 1d6 piercing + STR modifier. If you move at least 20 feet toward a target before hitting, the target must succeed on a STR saving throw (DC 8 + STR modifier + proficiency bonus) or be knocked prone.' },
+        { name: 'Powerful Build', desc: 'You count as one size larger for carrying capacity and for push/drag/lift.' },
+        { name: 'Hooved Charge', desc: 'Your hooves are also natural weapons that deal 1d4 bludgeoning + STR modifier.' },
+        { name: 'Krygraxian Constitution', desc: 'You have advantage on saving throws against disease and exhaustion. Your hit point maximum increases by 1 per level.' },
+      ]
+    },
+    { name: 'Rhaeowhynn', subtitle: 'Faerie-folk',
+      lore: 'The Rexus Casim Forest was, before the Final War, one of the most magically saturated environments on Kassis — a Xix-adjacent ancient woodland where the boundary between the Sildae and the physical world was thin enough that the forest itself dreamed. The Rhaeowhynn who emerged from this environment are gossamer-winged, luminous-featured faerie-folk who carry the forest\'s magic in their blood so thoroughly that spellwork comes to them less as learned skill and more as memory. Small in stature — rarely exceeding four feet — they are easily underestimated by those who mistake size for significance. Their wings are iridescent, shifting through color spectra that vary between individuals and change with emotional state, which makes Rhaeowhynn uniquely terrible at concealing enthusiasm. Their bodies are delicate in appearance but surprisingly resilient; the same biological magic that makes them shimmer also makes them difficult to permanently harm, minor wounds knitting faster than they have any right to. The loss of the Forest in the Final War\'s devastation was a particular grief — not just ecological but spiritual, as many Rhaeowhynn felt the forest\'s dreaming go quiet in the Sildae during the plague years. Those who made it to the moons carry seedlings of the old forest in stasis, and on certain moons, tiny groves of transplanted Rexus Casim trees now grow in sealed gardens, tended with a reverence that has become its own form of prayer.',
+      ability: 'Suggested +2 WIS or CHA, +1 DEX',
+      traits: [
+        { name: 'Faerie Flight', desc: 'You have a flying speed of 30 feet. You can\'t use this flying speed if you\'re wearing medium or heavy armor or carrying a heavy load.' },
+        { name: 'Forest Magic', desc: 'You know the druidcraft and minor illusion cantrips. At 3rd level, you can cast the faerie fire spell once per long rest. At 5th level, you can cast the lesser restoration spell once per long rest. Wisdom is your spellcasting ability for these.' },
+        { name: 'Fey Ancestry', desc: 'You have advantage on saving throws against being charmed. Magic can\'t put you to sleep.' },
+        { name: 'Wing Chromatics', desc: 'Your wings shift color with emotion. Creatures who can see you have advantage on Insight checks against you, but you have proficiency in the Performance skill, and on a successful Performance check, you can intentionally display a misleading emotional state.' },
+        { name: 'Size', desc: 'Small.' },
+      ]
+    },
+    { name: 'Dholmer', subtitle: 'Pug-folk',
+      lore: 'Moon Farstride is a port moon — the fastest ships in the Union dock there, the most ambitious smugglers route through there, and House Tsunari\'s shadow-governors have made it the beating commercial heart of the Union\'s Moonfleet trade. In this environment, the native Dholmer evolved through the particular crucible of being the most underestimated sapient species in a system that rewards exactly that quality. Stocky, wrinkled, with the broad flat faces and expressive eyes of their canine ancestors, the Dholmer read as soft, as harmless, as the kind of creature you pat on the head rather than negotiate with cautiously. This misperception has made them extraordinary. Their social intelligence is genuinely exceptional — they read emotional subtext in a room the way a navigator reads currents, and they leverage their apparent harmlessness as a tool with the precision of a master craftworker. In the Farstride docklands, a Dholmer fixer is considered more valuable than three swords and a spell, because a Dholmer fixer can prevent the situation that requires all three. They are intensely loyal to their chosen communities — a trait their canine heritage and Farstride\'s tight ship-crew culture reinforced across generations — and their support, once committed, is unconditional in the way that only loyalty built through genuine choice can be.',
+      ability: 'Suggested +2 CHA, +1 WIS',
+      traits: [
+        { name: 'Social Cartography', desc: 'You have proficiency in the Insight and Deception skills. Once per short rest, you can make an Insight check against a creature\'s Deception check to detect a lie; on a success, you also learn the creature\'s current emotional state.' },
+        { name: 'Harmless Bearing', desc: 'Creatures that haven\'t seen you fight have disadvantage on attack rolls against you until you deal damage or cast a spell.' },
+        { name: 'Pack Loyalty', desc: 'While you and at least one willing ally who you consider a companion are within 10 feet of each other, you both have advantage on saving throws against the frightened condition.' },
+        { name: 'Port Connections', desc: 'You have proficiency in the Persuasion skill and with navigator\'s tools. You always know the fastest legal (and the fastest illegal) route between two points in any city you\'ve spent at least a week in.' },
+      ]
+    },
+    { name: 'Fung', subtitle: 'Mushroom-folk',
+      lore: 'The Mithnami is called the Farmers Moon, but that name undersells the ecological depth of a world where magic has been woven into agricultural practice for two thousand years under House Mi\'Dratha\'s enchanter-stewardship. The moon\'s surface is covered in spell-gardens, floating sanctuaries, ritual shrines embedded in field walls, and the extensive mycelial networks that the Fung have cultivated and expanded since their emergence as the native people in Mithnami\'s early post-Exodus decades. The Fung are sentient fungal colonies — the biomass that constitutes their body is fungal in origin, organized into humanoid configurations that range from clearly botanical to nearly indistinguishable from other ancestries at a glance, depending on individual. Their heights range from two feet to seven feet. Their colors span earth tones, vivid reds, electric yellows, deep indigos. Their caps — when present — vary from small button-like structures to dramatic broad-brimmed formations that have inspired Mithnami architectural arches. They communicate verbally but also through the mycelial network that laces through Mithnami\'s soil, exchanging chemical information and emotional impressions at distances that allow for a kind of distributed consensus-building that other ancestries find either deeply impressive or faintly unsettling. When they defend themselves, the spores they release are not accidental.',
+      ability: 'Suggested +2 CON, +1 WIS or INT',
+      traits: [
+        { name: 'Mycelial Network', desc: 'You can communicate simple emotional impressions and images (no language, no complexity beyond "fear," "food," "danger," "north") with other Fung within 300 feet of you, through the mycelial network in soil or wood.' },
+        { name: 'Spore Defense', desc: 'As a reaction to being hit by a melee attack, you can release defensive spores. The attacker must succeed on a CON saving throw (DC 8 + CON modifier + proficiency bonus) or be poisoned until the end of its next turn. Once used, recharges on a short rest.' },
+        { name: 'Fungal Fortitude', desc: 'You have resistance to poison damage and advantage on saving throws against the poisoned condition. You don\'t need sunlight — you can subsist on organic matter.' },
+        { name: 'Deep Growth', desc: 'You have a burrow speed of 10 feet through soft earth. While in contact with soil, you have advantage on Survival checks to find food, water, or navigate by the mycelial "current."' },
+      ]
+    },
+    { name: 'Dhurin', subtitle: 'Giantkin-folk',
+      lore: 'The Tyrindor empire was never just dwarves. Giants walked the Kawafarr too — the Dhurin, who the dwarf historians classify as cousins and the Dhurin historians classify as the people who were already there. They are massive: seven to nine feet is average, with proportionate build, and individuals of exceptional size have reached eleven feet in the historical record. They are, in the living memory of the Union, the closest biological connection to the Kaigari — those gargantuan first-age beings who shaped Kassis\'s continents before falling into their long slumber. Whether this connection is genetic, cosmological, or simply a function of size is a question Dhurin scholars debate with the slow thoroughness their long lives permit. Under the Tyrindor Empire, the Dhurin served variously as laborers, soldiers, engineers, and in some cases rulers of regional territories — their relationship with the dwarves complex and never entirely equal, but deep enough to produce shared cultural traditions, language borrowings, and intermarriage across generations. After the Exodus, the Dhurin population scattered across the moons in relatively small numbers: their mass requirements make dense urban living challenging, and many ended up in frontier moon settlements — Phelindor\'s wilderness, New Mintox\'s desert, the outer reaches of Farstride\'s ports. Their Kaigari echoes are not merely metaphor.',
+      ability: 'Suggested +2 STR, +1 CON',
+      traits: [
+        { name: 'Kaigari Echo', desc: 'Once per long rest, you can enter a state of primal resonance as a bonus action. For 1 minute, your unarmed strikes deal 1d6 + STR modifier bludgeoning damage, and when you hit a creature with a melee attack, it must succeed on a STR saving throw (DC 8 + STR modifier + proficiency bonus) or be pushed 5 feet away from you.' },
+        { name: 'Mountain Born', desc: 'You have resistance to cold damage. You are adapted to high altitude and extreme cold; you suffer no ill effects from elevation.' },
+        { name: 'Powerful Build', desc: 'You count as one size larger for carrying capacity and push/drag/lift. Your size is Medium but you stand 7–9 feet tall.' },
+        { name: 'Stone\'s Endurance', desc: 'Once per short rest, when you take damage, you can use your reaction to reduce that damage by 1d12 + CON modifier.' },
+      ]
+    },
+    { name: 'Zhendhori', subtitle: 'Elemental-folk',
+      lore: 'The Moon of Meeru — the Elemental Court, governed by the mystic star-seekers of House Yezhura — is a world of raw elemental power leaking through from the planes that adjoin aetherspace. When the first refugee settlers arrived on Meeru following the Exodus, they encountered an environment in which the boundary between the material and the elemental was permeable in ways that no one had previously catalogued. Some settlers, over generations of exposure, were changed. Their children were changed further. The Zhendhori are the result: living conduits of raw elemental chaos, their bodies marked permanently by the element that claimed their bloodline. Fire-touched Zhendhori have hair that actually combusts in moments of strong emotion, skin that radiates warmth at all times, eyes lit from within by orange-white light. Water-touched have translucent patches of skin through which fluid currents are visible, and can be difficult to look at directly near light sources. Earth-touched display mineral formations in their skin — quartz inclusions, iron-gray striations, patches of actual crystalline growth. Air-touched seem to exist in perpetual gentle motion, hair lifting in absent winds, voices carrying unusual resonance. None of them chose this. All of them have had to decide what to do with it. The Zhendhori relationship with the Khol Sadar is complex: their very existence suggests the Path of Fragments may be more literal than metaphorical, but the manner of their transformation was not exactly voluntary enlightenment.',
+      ability: 'Suggested +2 CON, +1 based on element (Fire: STR, Water: DEX, Earth: CON, Air: DEX or CHA)',
+      traits: [
+        { name: 'Elemental Bloodline', desc: 'At character creation, choose your element: Fire, Water, Earth, or Air. Your appearance, abilities, and additional traits are determined by this choice.' },
+        { name: 'Elemental Resistance', desc: 'You have resistance to the damage type of your element (Fire: fire; Water: cold; Earth: bludgeoning from non-magical weapons; Air: lightning).' },
+        { name: 'Elemental Expression', desc: 'Fire: you know the fire bolt cantrip. Water: you have a swim speed of 30 ft. Earth: your natural AC is 13 + CON modifier when unarmored. Air: you have advantage on checks and saves to avoid being knocked prone, and light falls count as 0 damage.' },
+        { name: 'Surge', desc: 'Once per long rest, you can cast the elemental-aligned 1st-level spell without a slot: Fire: burning hands; Water: create or destroy water; Earth: earth tremor; Air: feather fall.' },
+      ]
+    },
+    { name: 'Mho\'kai', subtitle: 'Simian-folk',
+      lore: 'Moon Phelindor — the Forest Moon, where the Mho\'kai led House Brannoch holds sway over outlaw clans and monster-hunters — is a world of vast canopies, layered vertical ecosystems, and a surface rarely glimpsed through the unbroken green of its upper story. The native Mho\'kai mastered this environment so completely that they built a civilization in it without ever significantly disturbing the canopy itself: their settlements are architectural integrations of living tree and crafted structure, cities that grow rather than being imposed, communities that exist in relationship to the forest rather than in exploitation of it. Arboreal humanoids with long limbs proportionally greater than their body height, prehensile tails (present in nearly all Mho\'kai and used with the unconscious fluency of a fifth hand), and the large forward-facing eyes of predators built for three-dimensional navigation in dense foliage. Their fur ranges from tawny gold to deep charcoal, often with distinctive facial markings that vary by family line. On the ground, Mho\'kai move with the slightly awkward confidence of athletes in the wrong venue — perfectly capable but clearly designed for a different register. In the canopy, watching a Mho\'kai move is like watching physics become optional.',
+      ability: 'Suggested +2 DEX, +1 STR or INT',
+      traits: [
+        { name: 'Canopy Movement', desc: 'You have a climbing speed of 35 feet. While climbing, you can make Acrobatics checks as a bonus action to change your grip and avoid falling.' },
+        { name: 'Prehensile Tail', desc: 'Your tail functions as a third hand with the same dexterity as your primary hand. You can hold objects, wield a light weapon, or carry an item with it, but it cannot make attack rolls on its own.' },
+        { name: 'Three-Dimensional Navigation', desc: 'You have proficiency in Acrobatics. While you\'re not on the ground, you have advantage on Acrobatics checks and Perception checks.' },
+        { name: 'Canopy Sprint', desc: 'While climbing or moving through elevated terrain (scaffolding, rigging, tree branches), your speed is not reduced by difficult terrain and you do not provoke opportunity attacks from creatures that are not also in elevated terrain.' },
+      ]
+    },
+  ];
+
+  return `
+  ${para('The Infinite Fragment Vessels — the sentient races of Kassis — are extraordinary in their variety. Over two thousand years of shared aetherspace habitation has produced new ancestries beyond those native to the homeworld.')}
+  <p style="color:var(--text-muted);font-size:.88rem;margin-bottom:1rem">All ancestries use the Tasha\'s variant rule: increase one ability score by 2 and one by 1 (or three different scores by 1). Unless noted: Size Medium, Speed 30 ft., Languages: Common + one ancestral language. <strong style="color:var(--gold-light)">Tap any ancestry to expand.</strong></p>
+  ${ancestries.map(a => ancestryCard(a.name, a.subtitle, a.lore, a.ability, a.traits)).join('')}`;
+}
+
+function pageGuilds() {
+  const guilds = [
+    {
+      name: 'Maetyrn', subtitle: 'Warrior Cadre',
+      desc: 'The Union\'s military, law enforcement, and justice functions. Its members are the Sadari Knights of the Order of the Spalted Scimitar, the house soldiers of every Holy House, and the duelists of Baladon\'s academies. The Maetyrn value honor, discipline, and the kind of force that ends conflicts quickly.',
+      skills: 'Athletics, Intimidation', tools: 'One gaming set, vehicles (land)', langs: 'One of your choice',
+      equip: 'Spalted Wyrdwood training blade (treat as shortsword), common clothes with Maetyrn insignia, a small trophy from your first duty, and 10 gp',
+      feature: 'Chain of Command',
+      featureDesc: 'Call upon Guild authority with military or law enforcement personnel. Requisition basic mundane equipment from Maetyrn garrisons without payment. You know all forms of address, rank insignia, and challenge protocols — advantage on CHA checks to interact with military personnel.'
+    },
+    {
+      name: 'Zhenfarron', subtitle: 'Scholar Cadre',
+      desc: 'Governs the Union\'s educational institutions, research bodies, and the archival systems that preserve 14,000 years of recorded history. Scholars, teachers, sages, and researchers probing the edges of Sildae theory all wear the Zhenfarron sigil — a stylized open book over an aetherspace star.',
+      skills: 'History, Arcana (or Nature or Religion, your choice)', tools: 'Calligrapher\'s supplies, one artisan\'s tool', langs: 'Two of your choice',
+      equip: 'Calligrapher\'s supplies, apprenticeship notebook, letter of introduction from Guild mentor, scholar\'s robes, and 15 gp',
+      feature: 'Archive Access',
+      featureDesc: 'Credentials grant access to Union public archives and most non-restricted Guild libraries on any moon. With 24 hours of research, find the answer to almost any historical, scientific, or legal question on record. The DM may rule certain records sealed or missing — but you know who to ask to find out why.'
+    },
+    {
+      name: 'Daeho', subtitle: 'Healer Cadre',
+      desc: 'Straddles the boundary between medicine and spiritual practice. Its priests are also its physicians. Its spiritual advisors are also its trauma counselors. The Guild\'s motto — "To heal the Fragment is to serve the Forgotten" — captures exactly how thoroughly it has integrated faith and function.',
+      skills: 'Medicine, Religion', tools: 'Herbalism kit; healer\'s kit (free, not consumed) — once per short rest, stabilize a creature at 0 HP without a roll', langs: 'One of your choice',
+      equip: 'Healer\'s kit (10 uses), holy symbol of the Forgotten (silver fragment shaped like a broken sphere), Daeho robes, prayer book, and 10 gp',
+      feature: 'Sanctuary of the Forgotten',
+      featureDesc: 'Any Khol Sadar temple will provide you and your companions (up to six) with free lodging and basic meals for up to one week, no questions asked. If pursued, temple staff won\'t betray your location — and will warn you if pressured by higher clergy.'
+    },
+    {
+      name: 'Fizon', subtitle: 'Entertainer Cadre',
+      desc: 'Officially produces musicians, storytellers, artists, and performers. Unofficially, the Union\'s most sophisticated propaganda machine, its best intelligence distribution network, and its cultural immune system — the body that decides what stories the people tell themselves about who they are.',
+      skills: 'Performance, and one of: Deception, Persuasion, or Insight', tools: 'One musical instrument, one artisan\'s tool (for your artistic medium)', langs: 'One of your choice',
+      equip: 'Your instrument or artistic tools, a Fizon signet ring, two costumes, a certificate of apprenticeship, and 12 gp',
+      feature: 'The Audience Knows Your Name',
+      featureDesc: 'In any settled location, request free lodging and meals at a venue in exchange for a performance — the venue generally agrees because association with a Fizon member carries social cachet. Additionally, you have advantage on CHA checks to sway public opinion or gather information through public performance.'
+    },
+    {
+      name: 'Shamzi', subtitle: 'Tinkerer Cadre',
+      desc: 'Builds the Union\'s infrastructure: the Moonships, clockwork constructs, Sildae-powered lighting of New Certhas, the agricultural enchantments of Mithnami, and the weapons of the Maetyrn. Its members are engineers, inventors, artificers, and the people who keep everything running. The highest percentage of Goggins and Faithforged members of any Guild.',
+      skills: 'Investigation, and one of: Arcana, History, or Nature', tools: 'Tinker\'s tools, smith\'s tools (or one artisan\'s tool)', langs: 'One of your choice',
+      equip: 'Tinker\'s tools, common clothes with Shamzi insignia, a notebook of schematics, a small clockwork device of your own design, and 10 gp',
+      feature: 'Maker\'s Eye',
+      featureDesc: 'Spend 1 minute to assess the construction, age, and function of any mechanical, clockwork, or Sildae-powered device. For magical mechanisms, learn if Sildae-powered and approximately what they do (Arcana check for specifics). In any sizeable settlement, find a Shamzi chapter for tool-borrowing, materials at cost, and emergency repair assistance.'
+    },
+  ];
+
+  return `
+  ${para('At the age of twelve, every citizen of the Holy Kephrynn Union joins a Guild for a six-year apprenticeship. The Guild shapes your identity, your politics, your network, and your view of the world more thoroughly than any other single institution — more thoroughly, most would argue, than even the faith. The five Guilds function as D&D 5e Backgrounds.')}
+  ${flavor('While the Guilds were founded as meritocracies by the 2nd Prophet Verano the Sage, they have become deeply politicized. Wealthy and influential families use their connections to secure the most prized apprenticeships. A player character may have arrived at their Guild honestly — or may have been purchased a placement. Either way, they have the training.')}
+  ${guilds.map(g => guildCard(g)).join('')}`;
+}
+
+function pageMechanics() {
+  return `
+  ${sectionHeader('The Shard System (Path of Fragments)')}
+  ${para('The Khol Sadar teaches that all sentient beings are Fragments of the Forgotten — and that spiritual progress along the Path of Fragments brings them closer to eventual reunion with that divine whole. The Shard System is a campaign-level mechanic that models this spiritual journey, rewarding players for acts of faith, sacrifice, discovery, and connection that align with the Path.')}
+  ${flavor('The Shard System is intentionally lightweight. It adds narrative texture without complex bookkeeping. A character who never engages with the faith can ignore it almost entirely. A character who leans into it will find it profoundly rewarding. Both are valid.')}
+
+  ${subHeader('Gaining Shards')}
+  ${para('Shards are awarded by the GM at session end or at significant moments:')}
+  <ul style="color:var(--text);line-height:2;padding-left:1.5rem;margin-bottom:1rem;font-size:.93rem">
+    <li>Completing a significant act of selfless sacrifice on behalf of others <strong style="color:var(--gold)">(1 Shard)</strong></li>
+    <li>Discovering a truth about the world or yourself that changes how you act <strong style="color:var(--gold)">(1 Shard)</strong></li>
+    <li>Performing the Meditation of Fragments at a holy site or at dawn — a 10-minute ritual requiring no roll <strong style="color:var(--gold)">(1 Shard; once per long rest)</strong></li>
+    <li>Preventing a death that would have occurred due to your inaction <strong style="color:var(--gold)">(1 Shard)</strong></li>
+    <li>Receiving a vision from the Sildae Labyrinth in a dream <strong style="color:var(--gold)">(1–3 Shards, DM-awarded)</strong></li>
+    <li>Completing a major story arc tied to personal beliefs or history <strong style="color:var(--gold)">(2–3 Shards)</strong></li>
+  </ul>
+
+  ${subHeader('Spending Shards')}
+  ${table(
+    ['Cost','Timing','Effect'],
+    [
+      ['1','Any time','+1d4 to any ability check, saving throw, or attack roll (after seeing the d20)'],
+      ['1','Before a roll','Roll with advantage'],
+      ['2','As a reaction','Avoid one instance of damage entirely (before damage is rolled)'],
+      ['2','Once per long rest','Treat a spell slot expenditure as if it didn\'t happen (regain one slot 3rd level or lower)'],
+      ['3','When reduced to 0 HP','Stand at 1 HP instead and gain effects of bless on yourself for 1 minute'],
+      ['3','As an action','Cast guidance on up to six creatures simultaneously, lasting 1 hour'],
+      ['5','End of session','Gain an additional use of your racial trait or class feature with limited uses'],
+      ['10','Campaign milestone','Unlock a single Shard Epiphany (permanent boon)'],
+    ]
+  )}
+
+  ${subHeader('Shard Epiphanies')}
+  ${para('When a character spends 10 accumulated Shards and reaches a Shard Epiphany, choose one permanent boon (each selectable once):')}
+  <ul style="color:var(--text);line-height:2;padding-left:1.5rem;margin-bottom:1rem;font-size:.93rem">
+    <li><strong style="color:var(--gold-light)">Fragment Clarity:</strong> Proficiency in Insight and advantage on Intelligence (Religion) checks related to the Khol Sadar.</li>
+    <li><strong style="color:var(--gold-light)">Forgotten's Touch:</strong> You can cast the spare the dying cantrip with a range of 30 feet.</li>
+    <li><strong style="color:var(--gold-light)">Path Walker:</strong> You have advantage on death saving throws.</li>
+    <li><strong style="color:var(--gold-light)">Sildae Sensitivity:</strong> You always know when magic has been cast in the past 24 hours within 60 feet (visible as faint light residue).</li>
+    <li><strong style="color:var(--gold-light)">Unity of Fragments:</strong> Once per long rest, grant an ally within 30 feet the benefit of your next Shard spend as if they spent it themselves.</li>
+  </ul>
+
+  ${sectionHeader('Sildae Magic')}
+  ${para('The Sildae is the magical realm underlying all of existence — a vast, luminous labyrinth through which the souls of the dead travel toward (or away from) the Forgotten. It is the source of all magic. Spellcasting functions as standard D&D 5e with the following flavor:')}
+  ${table(
+    ['Magic Type','Flavor'],
+    [
+      ['Arcane (Wizard/Sorcerer)','Sildae-channeling — direct tap of the Sildae through study or bloodline'],
+      ['Divine (Cleric/Paladin)','Sildae-gifting — power received from the Forgotten through the Sildae, mediated by faith'],
+      ['Primal (Druid/Ranger)','Sildae-listening — attunement to the Sildae as it expresses through the natural world'],
+      ['Pact (Warlock)','Sildae-bargaining — agreements with entities that exist partially within the Sildae'],
+    ]
+  )}
+  ${flavor('The Sildae Labyrinth is the afterlife of this setting. When a character dies, their soul enters the Labyrinth and must navigate it toward the Forgotten. The Khol Sadar teaches that accumulated wisdom and spiritual development shortens the path. Characters with high Shard counts who die may receive brief prophetic visions before resurrection magic severs the path — foreshadowing the DM can use.')}
+
+  ${sectionHeader('Moonship Travel')}
+  ${para('The primary mode of inter-moon travel is the Moonship — great sailing vessels enchanted with Sildae Drives that navigate the Aetherspace between moons.')}
+  ${table(
+    ['Vessel Class','Speed','Capacity','Cost (one-way)'],
+    [
+      ['Passenger Frigate','3d6 days','200 passengers','5 gp per person'],
+      ['Trade Galleon','4d6 days','500 tons cargo','Freight rates apply'],
+      ['Fast Clipper','1d6 days','20 passengers','50 gp per person'],
+      ['Military Dreadnought','2d6 days','400 crew + cargo','Not for hire'],
+      ['Sildae Teleport Platform','Instant','1 person + gear','500 gp per person'],
+    ]
+  )}
+  ${para('During Moonship travel, roll d20 for random events: 1–3 Nothing happens. 4–7 Minor event (equipment problem, sailor gossip with a plot hook). 8–14 Interesting encounter (another ship, Aetherspace weather, distress signal). 15–18 Complication (piracy attempt, mechanical failure, rival faction). 19–20 Major event (discovery, Void-creature attack, emergency at destination).')}`;
+}
+
+function pageMoons() {
+  const moons = [
+    { name: 'Andaesil', subtitle: 'The Temple Moon', house: 'House Vaelkir', pop: 'High Density',
+      desc: 'The spiritual capital of the Union. Andaesil\'s surface is dominated by the Grand Temple Complex — hundreds of interconnected holy structures spanning a landmass the size of a small continent. Clockwork calligraphy automata inscribe scripture endlessly onto the temple walls. The Union Senate convenes here in the Hall of All Fragments. The Sisterhood of Andaesillian Mistresses was expelled from this moon five thousand years ago.',
+      hook: 'A set of ancient temple records has been sealed since the 10th Prophet\'s purge. The Sisterhood wants them. So does House Vaelkir. The truth inside may destabilize the faith.',
+      location: 'The Sildae Observatory — where aetherspace above Kassis is continuously monitored for signs the Sphere is weakening.',
+      tone: 'Political intrigue, religious authority, institutional memory' },
+    { name: 'Baladon', subtitle: 'The Warrior Moon', house: 'House Shidomo',
+      desc: 'A moon of dueling academies, classified tactical archives, and the midnight blade. House Shidomo\'s duelists are said to end wars before they begin — sometimes by arranging for the opposing general to fall off a balcony. Baladon trains the Union\'s officer class and houses its most classified military research.',
+      hook: 'A Shidomo duelist challenges the party\'s most combat-capable member. Behind the challenge is a proxy war between two Holy Houses who cannot be seen fighting openly.',
+      tone: 'Honor, shadow politics, martial perfection' },
+    { name: 'Phelindor', subtitle: 'The Forest Moon', house: 'House Brannoch',
+      desc: 'The canopy world. Almost entirely unbroken forest, settlements integrated into living trees by the Mho\'kai who built them. House Brannoch rules by binding outlaw clans and monster-hunters into feudal retinues. The wilderness is genuinely dangerous — creatures from the Kaigari Age sleep in the deep forest.',
+      hook: 'Something ancient has woken in the deep forest. Three scouting parties from House Brannoch haven\'t returned.',
+      tone: 'Wilderness survival, frontier justice, ecological horror' },
+    { name: 'Meeru', subtitle: 'The Elemental Court', house: 'House Yezhura',
+      desc: 'Elemental planes bleed into Meeru constantly. Volcanic plains adjoin frozen tundra adjoin living storms adjoin crystalline earth formations. House Yezhura\'s mystics claim to have a star-map from the First Prophet that explains Meeru\'s pattern. They are almost certainly lying about what it contains.',
+      hook: 'House Yezhura has announced a new \'prophecy\' granting them authority over a neighboring moon. The evidence is in their star-map. Someone needs to see that map.',
+      tone: 'Elemental wonder, mystical intrigue, unstable geography' },
+    { name: 'New Certhas', subtitle: 'The Market Moon', house: 'House Ar\'Kessan',
+      desc: 'Named for the lost capital of Kassis, an act of deliberate cultural preservation and barely-concealed economic dominance. The bankers and resource barons of Ar\'Kessan prop up half the Union\'s economy. They are respected, resented, and completely indispensable — and they know it.',
+      hook: 'A financial instrument circulating through New Certhas markets is backed by a resource extracted from a location on the Sphere\'s surface that shouldn\'t be accessible.',
+      tone: 'Commerce, desperation, economic power as coercion' },
+    { name: 'Farstride', subtitle: 'The Port Moon', house: 'House Tsunari',
+      desc: 'The fastest ships in the Union are built and berthed at Farstride. A labyrinth of shipyards, warehouses, shadow-accounting offices, and Gray Market operations they officially do not run. The Dholmer have built every important informal network on this moon.',
+      hook: 'A Moonship has arrived from an origin port that doesn\'t exist in Union records. Its crew are acting strangely. Its cargo manifest is filed under a House that fell five hundred years ago.',
+      tone: 'Noir, smuggling, maritime intrigue' },
+    { name: 'Varthia', subtitle: 'The Healer Moon', house: 'House Qoraithe',
+      desc: 'Officially a hub for healers, apothecaries, and spiritual medicine. Unofficially, House Qoraithe runs the Union\'s most sophisticated black market in alchemical substances — the miracle workers are revered by day and supplying stimulants by night.',
+      hook: 'A new treatment for Aetherspace Sickness is revolutionary, the clinical trials are perfect, and the supplier of the core ingredient is a Dhormalae Confederacy front.',
+      tone: 'Medical ethics, moral compromise, the cost of healing' },
+    { name: 'Ozara', subtitle: 'The Tinkerer\'s Moon', house: 'House Drajhul',
+      desc: 'Ozara never sleeps. The industrial output of House Drajhul\'s metalworks sustains half the Union\'s Moonship fleet and all of its clockwork military equipment. The moon runs on labor — and the labor is exhausted, unionizing, and beginning to listen to Voidist recruiters.',
+      hook: 'A labor action at the main Drajhul foundry threatens to halt Moonship production. The Voidist organizers have a legitimate grievance. The party has been hired by Drajhul to resolve the situation.',
+      tone: 'Labor politics, industrial scale, the revolution question' },
+    { name: 'Norvarch', subtitle: 'The Scholar Moon', house: 'House Vel\'Sarune',
+      desc: 'The Union\'s greatest library and its most sophisticated propaganda operation occupy the same buildings. Vel\'Sarune\'s romantic scholars and propagandists have been crafting the Union\'s historical narrative for two thousand years. Sealed wings of the archive haven\'t been opened since the 10th Prophet\'s reign.',
+      hook: 'A junior Zhenfarron archivist has found a discrepancy in the official record of Nikalysa\'s final hours. The discrepancy suggests she did not choose to die — she was pushed.',
+      tone: 'Academic mystery, historical conspiracy, the danger of knowledge' },
+    { name: 'Darqueholme', subtitle: 'The Greywalker Moon', house: 'House Rinshado',
+      desc: 'Named for the 3rd Prophet who founded the Shadows of Darqueholme intelligence network. This moon is the Union\'s intelligence hub — officially for inter-moon security, unofficially for knowing everyone\'s secrets. House Rinshado and the Greywalkers work at cross-purposes as often as they collaborate.',
+      hook: 'A Greywalker safe house has been burned. The people inside were investigating the Holy Steward\'s private communications. The party finds the only survivor.',
+      tone: 'Espionage, moral compromise, institutional surveillance' },
+    { name: 'Freeholme', subtitle: 'The Refuge Moon', house: 'House Thorne-Izu',
+      desc: 'The quasi-independent moon for outcasts, refugees, ideological dissenters, and the culturally homeless. Tradition and technology fight daily in its crowded cities. House Thorne-Izu is half ancient Kassis nobility and half immigrant industrialists, and they govern by constant internal contradiction.',
+      hook: 'A community of non-Faithful refugees has petitioned Freeholme for sanctuary. The Union Senate\'s investigating delegation has different goals than its mandate.',
+      tone: 'Refugee politics, cultural collision, the limits of sanctuary' },
+    { name: 'New Mintox', subtitle: 'The Desert Moon', house: 'House Kelvath',
+      desc: 'Ninety percent deadly wilderness. Simultaneously the Union\'s penal colony, its most dangerous ecosystem, and the Mintox people\'s cultural reclamation project. The beasts of New Mintox are unlike anything on other moons — evolved in isolation from creatures with no analog elsewhere.',
+      hook: 'A prisoner transport crashed into the deep desert weeks ago. The prisoners have formed a survival community. Someone important is among them — three factions want them extracted for different reasons.',
+      tone: 'Survival horror, desert exploration, the question of punishment' },
+    { name: 'Mithnami', subtitle: 'The Farmers Moon', house: 'House Mi\'Dratha',
+      desc: 'The breadbasket of the Union. Magic and agriculture have been intertwined for two thousand years under Mi\'Dratha\'s enchanter-stewardship. The Fung\'s mycelial networks run beneath every field. The floating sanctuaries above them house rituals viewed with suspicious reverence.',
+      hook: 'The mycelial network beneath Mithnami\'s northern agricultural region has gone silent. The Fung communities connected to it have stopped communicating. No one is dead. They just... stopped.',
+      tone: 'Agricultural magic, ecological mystery, the uncanny' },
+    { name: 'Xyros', subtitle: 'The Dragon Lords\' Moon', house: 'House Orramune',
+      desc: 'The bureaucracy moon. Ancient power dressed in paperwork. Where the Xixus hold court and the Union\'s legal archives are maintained. The oldest Xixus families maintain private collections of Xix Magocracy artifacts and will go to considerable lengths to keep them private.',
+      hook: 'A legal case hinges on a pre-Exodus treaty in the restricted archive. Retrieving it legally will take years. Retrieving it otherwise will take the party into the deepest stacks of a moon that does not like unofficial visitors.',
+      tone: 'Legal drama, ancient power, institutional gatekeeping' },
+    { name: 'Zhenrhaglo', subtitle: 'The Miners Moon', house: 'House Zhaokorin',
+      desc: 'Ritual fire and mineral extraction share Zhenrhaglo in uneasy partnership. House Zhaokorin claims guardianship of the "last flame of pre-Exodus divinity" — an ever-burning fire that has not been extinguished since before the Final War. The mines produce the Athgarium ore that powers Faithforged construction.',
+      hook: 'The eternal flame has dimmed for the first time in recorded history. Zhaokorin is calling it a testing of the Faithful. The Shamzi engineer who maintains the flame\'s mechanisms knows exactly what it is — and it isn\'t divine.',
+      tone: 'Religious spectacle vs. material reality, extraction economies, faith under pressure' },
+    { name: 'Ordae', subtitle: 'The Moon of Lakes', house: 'House Verukael',
+      desc: 'Fortress-islands, inland lake labyrinths, and pirate lords turned governors. House Verukael was pardoned for skill — their maritime expertise was too valuable to waste — and they govern with the charisma and creative legal interpretation their origins suggest. The Dhrae and Azrha Rho make Ordae fascinating and occasionally terrifying.',
+      hook: 'A lake fortress belonging to a minor Verukael family has gone dark. The lake surrounding it has turned an unusual color. The Azrha Rho guardians haven\'t sent a distress signal. They\'ve sent nothing.',
+      tone: 'Swamp gothic, nautical exploration, reformed pirates' },
+    { name: 'The Platform', subtitle: 'Orbital Station (not a moon)',
+      house: 'Union Military',
+      desc: 'A massive constructed station in fixed orbit above the Sphere. Serves as magical observatory, last-resort military installation, and the most disquieting posting in the Union military. From here, observers can see Kassis through the Sphere — can see the undead and the Kaigari still moving on the surface, after two thousand years. The Platform\'s garrison has the lowest morale in the Union. Its researchers have the highest publication rate.',
+      hook: 'Platform Observation Log #14,883 has been classified at the highest level. It\'s 200 words long. The researchers who wrote it requested immediate reassignment to the furthest moons. They have not spoken publicly about what they saw.',
+      tone: 'Cosmic dread, institutional anxiety, the unknown' },
+  ];
+
+  return `
+  ${para('Sixteen moons orbit the shimmering Sphere that was once Kassis, each settled by different populations, developed by different Houses, and shaped by different ecological realities. <strong style="color:var(--gold-light)">Tap any moon to expand its entry.</strong>')}
+  ${moons.map(m => moonCard(m)).join('')}`;
+}
+
+function pageFactions() {
+  return `
+  ${sectionHeader('Major Factions')}
+
+  ${subHeader('The Order of the Spalted Scimitar (Sadari Knights)')}
+  ${para('The primary law enforcement and military force of the Union, always led by a Maetyrn Guild member with the title Justice of the Forgotten. Their enchanted spalted Wyrdwood scimitar is the Union\'s most recognizable symbol of authority.')}
+  ${para('<strong style="color:var(--gold-light)">Goal:</strong> Maintain Union law, protect the Holy Steward, uphold the Khol Sadar. <strong style="color:var(--gold-light)">Player Relationship:</strong> Quest-givers, employers, obstacles. Deeply principled but capable of being weaponized by political masters.')}
+
+  ${subHeader('The Shadows of Darqueholme (Greywalkers)')}
+  ${para('The Union\'s civilian intelligence network, reporting directly to the Prophet (or Holy Steward). Named for the 3rd Prophet who famously said they must "walk in the Shadows of grey." Not the most feared organization — the most useful one.')}
+  ${para('<strong style="color:var(--gold-light)">Goal:</strong> Assess and neutralize threats to Union stability and the Prophet\'s mission. <strong style="color:var(--gold-light)">Player Relationship:</strong> Potential employers, information brokers, ambiguous allies with their own agenda.')}
+
+  ${subHeader('The Sisterhood of Andaesillian Mistresses')}
+  ${para('Originally devout colonial sisters on the Temple Moon, expelled 5,000 years ago during the Great Purge. Now a loosely networked movement dedicated to liberation of minds and souls — and to finding and installing a True Prophet who will dethrone the current power structure.')}
+  ${para('<strong style="color:var(--gold-light)">Goal:</strong> Expose the conspiracy around the Prophet\'s absence; install their chosen Reincarnation. <strong style="color:var(--gold-light)">Player Relationship:</strong> Idealistic employers with dangerous information; potentially the most important allies in the setting.')}
+
+  ${subHeader('The Voidist Movement')}
+  ${para('Led by Burohs of Free Clan Burohs Rising, a former Union priest. The Voidists believe the only way to return all Fragments to the divine is to destroy all of creation and return everything to the primordial Void. Gaining ground among the disenchanted youth and the lapsed Faithful.')}
+  ${para('<strong style="color:var(--gold-light)">Goal:</strong> Systematic dismantling of all material reality, beginning with Union infrastructure. <strong style="color:var(--gold-light)">Player Relationship:</strong> Antagonists with a point — their critique of the Union is largely correct; only their solution is monstrous.')}
+
+  ${subHeader('The Dhormalae Confederacy')}
+  ${para('A secret alliance of noble houses denied moons in the post-Exodus restructuring. They want feudal restoration, the destruction of the Sixteen Holy Houses, and a return to ancient bloodline primacy. To the public, they don\'t exist. To the Guilds, they are a serious threat.')}
+  ${para('<strong style="color:var(--gold-light)">Goal:</strong> Overthrow current power structure and restore pre-Exodus noble hierarchy. <strong style="color:var(--gold-light)">Player Relationship:</strong> Potential employers, antagonists, or the player characters\' own noble house affiliation.')}
+
+  ${sectionHeader('Notable NPCs')}
+
+  ${subHeader('Holy Steward Grizzitgorn')}
+  ${para('A Xixus who underwent the Faithforged transformation 1,600 years ago to serve the Union indefinitely. Soft-spoken, apparently benevolent, and entirely unreadable. He founded the Koska Ko-mara Academy to find the next Prophet. His motivations are unknown. His competence is not.')}
+  ${para('<em>Role:</em> Ultimate authority of the Holy Kephrynn Union in the Prophet\'s absence. <em>Personality:</em> Measured, warm, infinitely patient. Possibly the most dangerous person alive.')}
+
+  ${subHeader('Burohs of Free Clan Burohs Rising')}
+  ${para('Former Union priest, now leader of the Voidist Movement. He is not a cartoon villain. He is a man who encountered something so terrible that it broke his faith in the value of existence itself, and rebuilt himself around a theology of annihilation.')}
+  ${para('<em>Role:</em> Ideological threat; potential tragic antagonist; the person who knows what\'s at the Platform. <em>Personality:</em> Gentle, persuasive, deeply sad. His recruits describe him as the most compassionate person they\'ve ever met.')}
+
+  ${sectionHeader('Holy House Patron System')}
+  ${para('The Sixteen Holy Houses function as potential Patrons for player characters. A character with a House affiliation has a feudal obligation that generates missions, complications, and political protection in roughly equal measure.')}
+  ${table(
+    ['Rank','Title','Benefits','Tithe'],
+    [
+      ['1','Retainer','Basic missions, modest resources, moon protection','5% of income'],
+      ['2','Knight','Significant missions, access to House facilities, political leverage','8% of income'],
+      ['3','Champion','Major operations, significant resources, the House will go to war for you','12% of income'],
+      ['4','Blood','Deepest secrets, unlimited resources, family membership','Non-negotiable total commitment'],
+    ]
+  )}`;
+}
+
+function pageMonsters() {
+  return `
+  ${para('The Moons of Kassis present unique threats shaped by their history. The following stat blocks represent key adversaries compatible with D&D 5e.')}
+
+  ${statBlock({
+    name: 'Corrupted Drake',
+    type: 'Large Undead (Dragon), Chaotic Evil',
+    ac: '16 (natural armor)', hp: '105 (10d10 + 50)', speed: '40 ft., fly 60 ft.',
+    str: '20 (+5)', dex: '12 (+1)', con: '20 (+5)', int_: '7 (−2)', wis: '10 (+0)', cha: '14 (+2)',
+    traits: [
+      { name: 'Undead Fortitude', desc: 'At 0 HP, CON save (DC = 5 + damage taken) to drop to 1 HP instead. Fails automatically vs. radiant damage or critical hits.' },
+      { name: 'Plague Aura', desc: 'Creatures starting their turn within 10 ft: DC 14 CON save or poisoned until start of their next turn.' },
+      { name: 'Damage Immunities', desc: 'Poison, necrotic. Condition Immunities: Exhaustion, poisoned, charmed, frightened.' },
+    ],
+    actions: [
+      { name: 'Multiattack', desc: 'Three attacks: one Bite and two Claws.' },
+      { name: 'Bite', desc: '+8 to hit, reach 10 ft., one target. Hit: 14 (2d8 + 5) piercing + 9 (2d8) necrotic damage.' },
+      { name: 'Claw', desc: '+8 to hit, reach 5 ft., one target. Hit: 12 (2d6 + 5) slashing damage.' },
+      { name: 'Corruption Breath (Recharge 5–6)', desc: '30-ft cone, DC 15 CON save: 35 (10d6) necrotic (half on success). Fail by 5+: gain one level of exhaustion.' },
+    ]
+  })}
+
+  ${statBlock({
+    name: 'Kaigari Echo',
+    type: 'Huge Elemental, Unaligned',
+    ac: '18 (natural armor)', hp: '157 (15d12 + 60)', speed: '30 ft., burrow 30 ft.',
+    str: '24 (+7)', dex: '8 (−1)', con: '18 (+4)', int_: '5 (−3)', wis: '14 (+2)', cha: '6 (−2)',
+    traits: [
+      { name: 'First Age Resilience', desc: 'Immune to poison and psychic damage. Resistant to nonmagical bludgeoning, piercing, and slashing.' },
+      { name: 'Tremorsense', desc: '120 feet.' },
+      { name: 'Seismic Presence', desc: 'When entering a space or starting its turn, creatures within 10 ft: DC 17 STR save or be knocked prone.' },
+    ],
+    actions: [
+      { name: 'Multiattack', desc: 'Two Slam attacks.' },
+      { name: 'Slam', desc: '+11 to hit, reach 15 ft., one target. Hit: 29 (4d10 + 7) bludgeoning damage.' },
+      { name: 'Earthshake (Recharge 5–6)', desc: '60-ft radius, DC 17 DEX: 42 (12d6) bludgeoning + prone on fail. Success: half damage, no prone. Structures take double damage.' },
+    ]
+  })}
+
+  ${statBlock({
+    name: 'Greywalker Operative',
+    type: 'Medium Humanoid, Neutral',
+    ac: '15 (studded leather)', hp: '65 (10d8 + 20)', speed: '30 ft.',
+    str: '12 (+1)', dex: '18 (+4)', con: '14 (+2)', int_: '14 (+2)', wis: '16 (+3)', cha: '14 (+2)',
+    traits: [
+      { name: 'Blend In', desc: 'In crowds or urban environments, advantage on Stealth checks and saves vs. being specifically identified.' },
+      { name: 'Evasion', desc: 'DEX save for half damage = no damage instead.' },
+    ],
+    actions: [
+      { name: 'Multiattack', desc: 'Two dagger attacks.' },
+      { name: 'Dagger', desc: '+6 to hit, reach 5 ft. / range 20/60 ft. Hit: 6 (1d4 + 4) piercing + 10 (3d6) poison damage (DC 13 CON or poisoned for 1 hour).' },
+      { name: 'Sildae Disruption Device', desc: 'One creature within 30 ft: DC 13 INT save or lose concentration and be unable to maintain concentration spells until end of next turn.' },
+    ],
+    bonus: [
+      { name: 'Shadow Step', desc: 'When a creature misses the Operative with an attack, move up to 15 ft without provoking opportunity attacks.' },
+    ]
+  })}
+
+  ${statBlock({
+    name: 'Void-Touched Cultist',
+    type: 'Medium Humanoid, Chaotic Evil',
+    ac: '11', hp: '32 (5d8 + 10)', speed: '30 ft.',
+    str: '10 (+0)', dex: '12 (+1)', con: '14 (+2)', int_: '10 (+0)', wis: '8 (−1)', cha: '16 (+3)',
+    traits: [
+      { name: 'Void Dissolution', desc: 'At 0 HP, body dissolves in void energy. Creatures within 10 ft: DC 12 CON save or take 10 (3d6) necrotic damage.' },
+      { name: 'Nihilistic Fervor', desc: 'Immune to the frightened condition.' },
+    ],
+    actions: [
+      { name: 'Void Touch', desc: '+5 to hit, reach 5 ft. Hit: 9 (2d8) necrotic. If this reduces target to 0 HP, they begin dying with 2 failed death saves already marked.' },
+      { name: 'Recruit (Recharge 5–6)', desc: 'Impassioned speech. One humanoid within 30 ft who can hear: DC 13 WIS save or charmed for 1 hour, treating Voidist doctrine as reasonable.' },
+    ]
+  })}`;
+}
+
+function pageReligion() {
+  return `
+  ${sectionHeader('The Khol Sadar (Path of Fragments)')}
+  ${para('Founded thousands of years ago by the terminally ill artist Mohannarael, who journeyed to the Sadari Plains seeking a place to die. Upon death, his soul navigated the Sildae Labyrinth and touched the mind of the Forgotten — the deific entity whose name is lost, who gave life to create the multiverse. Mohannarael was the first soul ever to return to this being — and then return to his mortal body.')}
+  ${para('Mohannarael, now the First Prophet, taught that all living beings are Fragments of this greater consciousness. Until all sentient fragments return to the Forgotten, all will know suffering. The Faithful believe the ultimate goal of existence is to journey down the Path of Fragments and return home. The First Prophet, blessed with divine abilities and extended life, reincarnates multiple times — a mortal guide who vows to not return to the Forgotten until he has led every last sentient being home.')}
+  ${flavor('Core Beliefs: All life is a fragment of the Forgotten. The Path of Fragments leads to spiritual reunion. Even gods are on the Path; tolerance for other faiths is encouraged.')}
+
+  ${subHeader('Timeline of Incarnations')}
+  ${table(
+    ['UY Range','Name & Ancestry','Notable Achievement'],
+    [
+      ['1–2003','Mohannarael (Kephrynn)','Founded Khol Sadar; first resurrection'],
+      ['2013–3271','Verano the Sage (Orthos)','Established the Union calendar system'],
+      ['3284–4283','Darqueholme (Frodunn)','Founded the Greywalker Guild; intelligence tradition'],
+      ['4301–5307','Roklyr the War Prophet (Soljinn)','Military reforms and expansion'],
+      ['5309–6210','Lovos the Peace Prophet (Dhurin)','Major peace initiatives'],
+      ['6216–7064','Kavos the Tolerant (Kephrynn)','Religious tolerance doctrine; extended pantheon'],
+      ['7085–8434','D\'raza the Stargazer (Soljinn)','Astral exploration; aetherspace mapping'],
+      ['8439–8466','Vhen\'mori (Kephrynn)','Philosophical advancements; Path refinements'],
+      ['8586–9320','Morgah the Balanced (Orthos)','Social reforms and equity legislation'],
+      ['9329–10532','Dael the Conservative (Tyrindor)','Purges; Sisterhood expelled from Andaesil'],
+      ['10569–11568','Bhan\'Modhar (Kephrynn)','Faith preservation during the Long Silence'],
+      ['11673–12842','Nikalysa the Savior (Kassari)','Sacrifice and the sealing of the Sphere'],
+      ['12842–14815','Prophetless Moon Years','Present day; search for the 13th Prophet; Grizzitgorn governs'],
+    ]
+  )}
+
+  ${sectionHeader('Union Life, Calendar & Timekeeping')}
+  ${para('The Union is a people unified by their religion, not their ethnicity. An empire in Aetherspace, it functions as a theocracy led by the First Prophet or Holy Steward in absence. Governance runs through a modified feudal system of Sixteen Holy Houses, all acknowledging the Church as ultimate authority. The Union Senate — one Warden representative per moon — convenes on Andaesil.')}
+
+  ${subHeader('Union Standard Time (UST)')}
+  ${para('Time is measured from the capital city of Certhas. The calendar counts from the First Prophet\'s return from the dead (UY = Union Year). Current date: UY 14,815.')}
+  ${table(
+    ['Unit','Duration'],
+    [
+      ['Hour','60 Minutes'],
+      ['Day','32 Hours'],
+      ['Month','40 Days'],
+      ['Year','400 Days (10 months)'],
+    ]
+  )}
+  ${subHeader('The Ten Months')}
+  ${table(
+    ['Month','Cultural Significance'],
+    [
+      ['Newbirth','Renewal, beginnings'],
+      ['Flowersbloom','Growth, celebration'],
+      ['Firstharvest','Abundance, gratitude'],
+      ['Warmestbreeze','Comfort, relaxation'],
+      ['Rainfall','Cleansing, reflection'],
+      ['Drywind','Endurance, challenge'],
+      ['Fallingleaf','Change, transition'],
+      ['Lastharvest','Preparation, closure'],
+      ['Snowscome','Rest, contemplation'],
+      ['Firsthaw','Anticipation, hope'],
+    ]
+  )}
+
+  ${subHeader('Aging in Aetherspace')}
+  ${para('Due to the magical nature of Kassis Aetherspace, people of all ancestries reach adulthood at 20, cease aging until 450, then age slowly thereafter. Lifespans average 600 years, with some exceeding 800 through the use of magic.')}
+  ${flavor('"Unlike other long-lived cultures, the Faithful live with urgency. They believe the more experience and achievement gained in a single lifetime will shorten their time on the Path of Fragments, motivating a relentless pursuit of accomplishment."')}`;
+}
+
+function pageAppendix() {
+  const glossary = [
+    ['Aetherspace','The magical expanse surrounding Kassis and its moons; space saturated with Sildae energy'],
+    ['Athgarium','A magical ore found on Zhenrhaglo; essential to Faithforged construction'],
+    ['Faithforged','Sentient clockwork beings of Wyrdwood and Athgarium; formerly Athgari constructs'],
+    ['First Prophet','Mohannarael; the founder of Khol Sadar; reincarnates multiple times'],
+    ['Forgotten','The deific entity whose name is lost; source of all life; the destination of the Path of Fragments'],
+    ['Greywalkers','The Shadows of Darqueholme; Union civilian intelligence network'],
+    ['Holy Steward','The leader of the Union in the Prophet\'s absence; currently Grizzitgorn'],
+    ['Infinite Fragment Vessels','The sentient races; named for the belief that they are Fragments of the Forgotten'],
+    ['Kaigari','Ancient primordial beings from the First Age; believed sleeping within Kassis'],
+    ['Kassis','The homeworld; sealed beneath the Sphere since the Final War'],
+    ['Khol Sadar','"From the Sadari"; the central faith of the Union'],
+    ['Koska Ko-mara','The Academy of Future Leaders; founded to locate the 13th Prophet'],
+    ['Moonships','Great sailing vessels enchanted with Sildae Drives for Aetherspace travel'],
+    ['Path of Fragments','The spiritual journey to reunite with the Forgotten'],
+    ['Sildae','The magical realm underlying existence; source of all magic in the setting'],
+    ['Sildae Drive','The enchanted engine of Moonships; channels Sildae energy for propulsion'],
+    ['Sildae Labyrinth','The afterlife; the labyrinthine realm where the Forgotten resides'],
+    ['Spalted Scimitar','The symbol of the Order of the Spalted Scimitar; carved from spalted Wyrdwood'],
+    ['The Sphere','The colossal magical barrier sealing Kassis; anchored by Nikalysa and Shom\'s sacrifice'],
+    ['Union Year (UY)','Calendar system counted from the First Prophet\'s resurrection'],
+    ['Voidist Movement','Radical counter-ideology seeking destruction of all creation'],
+    ['Wildspace','Common adventurer term for Aetherspace; informal variant'],
+    ['Wyrdwood','A magical timber species; sacred to the Faithforged; used in holy weapons and Moonship hulls'],
+  ];
+
+  return `
+  ${sectionHeader('Glossary of Key Terms')}
+  <div style="margin-bottom:2rem">
+    ${glossary.map(([term, def]) => `<div class="gloss-row"><span class="gloss-term">${term}</span><span>${def}</span></div>`).join('')}
+  </div>
+
+  ${sectionHeader('Timeline Quick Reference')}
+  ${table(
+    ['Age','Key Years (UY)','Summary'],
+    [
+      ['Age of Kaigari','Pre-1','Primordial beings rule Kassis; Grand Collision divides continents'],
+      ['Age of Sorrows','Undefined','Aftermath of elemental fury; birth of the Infinite Fragment Vessels'],
+      ['Age of Fragments','1–present','Rise of sentient civilizations; formation of the Union'],
+      ['Crusade Years','1–6000','Kephrynn expansion absorbs or destroys other cultures'],
+      ['The Final War','~12000–12842','Krygaxian vs. Xix Magocracy; necromantic plague; the Exodus'],
+      ['Creation of the Sphere','12842','Nikalysa and Shom\'s sacrifice; Kassis sealed forever'],
+      ['Prophetless Moon Years','12842–14815 (present)','No Prophet reincarnation in ~2000 years; Grizzitgorn governs as Steward'],
+    ]
+  )}`;
+}
+
+// ============================================================
+// ROUTING & INTERACTION
+// ============================================================
+let currentPage = 'welcome';
+let menuOpen = false;
+
+const pageBuilders = {
+  welcome: pageWelcome,
+  ancestries: pageAncestries,
+  guilds: pageGuilds,
+  mechanics: pageMechanics,
+  moons: pageMoons,
+  factions: pageFactions,
+  monsters: pageMonsters,
+  religion: pageReligion,
+  appendix: pageAppendix,
+};
+
+function buildAllPages() {
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+  CHAPTERS.forEach(ch => {
+    const div = document.createElement('div');
+    div.id = 'page-' + ch.id;
+    div.className = 'page' + (ch.id === 'welcome' ? ' active' : '');
+    div.innerHTML = `<h1 class="page-title">${ch.title}</h1>` + pageBuilders[ch.id]() + buildPageNav(ch.id);
+    main.appendChild(div);
+  });
+}
+
+function buildPageNav(id) {
+  const idx = CHAPTERS.findIndex(c => c.id === id);
+  const prev = idx > 0 ? CHAPTERS[idx - 1] : null;
+  const next = idx < CHAPTERS.length - 1 ? CHAPTERS[idx + 1] : null;
+  return `<div class="page-nav">
+    ${prev ? `<button class="page-nav-btn" onclick="navigate('${prev.id}')">← ${prev.short}</button>` : '<div></div>'}
+    ${next ? `<button class="page-nav-btn" onclick="navigate('${next.id}')">${next.short} →</button>` : '<div></div>'}
+  </div>`;
+}
+
+function buildNav() {
+  const tabContainer = document.getElementById('nav-tabs');
+  const dropContainer = document.getElementById('nav-dropdown');
+  tabContainer.innerHTML = '';
+  dropContainer.innerHTML = '';
+  CHAPTERS.forEach(ch => {
+    // Tab
+    const tab = document.createElement('button');
+    tab.className = 'nav-tab' + (ch.id === currentPage ? ' active' : '');
+    tab.textContent = ch.short;
+    tab.onclick = () => navigate(ch.id);
+    tabContainer.appendChild(tab);
+    // Dropdown
+    const item = document.createElement('button');
+    item.className = 'nav-dropdown-item' + (ch.id === currentPage ? ' active' : '');
+    item.textContent = ch.title;
+    item.onclick = () => navigate(ch.id);
+    dropContainer.appendChild(item);
+  });
+}
+
+function navigate(id) {
+  document.querySelector('#page-' + currentPage)?.classList.remove('active');
+  document.querySelector('#page-' + id)?.classList.add('active');
+  currentPage = id;
+  buildNav();
+  menuOpen = false;
+  document.getElementById('nav-dropdown').classList.remove('open');
+  document.getElementById('menu-toggle').textContent = '☰ Chapters';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  document.getElementById('nav-dropdown').classList.toggle('open', menuOpen);
+  document.getElementById('menu-toggle').textContent = menuOpen ? '✕ Close' : '☰ Chapters';
+}
+
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+  const btn = card.querySelector('.card-toggle');
+  btn.setAttribute('aria-expanded', card.classList.contains('open'));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildAllPages();
+buildNav();
+</script>
+</body>
+</html>
